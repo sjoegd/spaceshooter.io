@@ -84,7 +84,7 @@ export function createSpacejet(x: number, y: number): Spacejet {
     spacejet.BASE_HEALTH = 100;
     spacejet.BASE_AMMO = 10;
     spacejet.RELOAD_TIME = 1000;
-    spacejet.MAX_SHIELD = 100;
+    spacejet.MAX_SHIELD = 50;
 
     spacejet.shield = 0;
     spacejet.health = spacejet.BASE_HEALTH
