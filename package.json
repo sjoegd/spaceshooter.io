@@ -1,0 +1,14 @@
+{
+  "name": "spaceshooter.io",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "npm run buildApp && npm run buildServer",
+    "buildApp": "cd ./root/client && npm i && npm run build && cd ../..",
+    "buildServer": "cd ./root/server && npm i && npm run build && cd ../..",
+    "start": "cd ./root/server && npm run start"
+  },
+  "keywords": ["io game", "io", "game", "multiplayer", "spaceshooter", "canvas", "socket.io"],
+  "author": "Sjoegd",
+  "license": "ISC"
+}
