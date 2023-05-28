@@ -7,8 +7,8 @@ export default class SocketEngine {
   updateStateCallbacks: ((bodies: BodyRender[], ui?: UIRender) => void)[] = []
 
   constructor() {
-    const [http, address, port] = window.location.href.split(":")
-    this.socket = io(`${http}:${address}:${port}`, {
+    // const [http, address, port] = window.location.href.split(":")
+    this.socket = io({
       path: '/mysocket'
     }) // port -> 3000 for dev
 
