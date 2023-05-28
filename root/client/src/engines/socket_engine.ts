@@ -8,7 +8,7 @@ export default class SocketEngine {
 
   constructor() {
     // const [http, address, port] = window.location.href.split(":")
-    this.socket = io({
+    this.socket = io(window.location.href, {
       path: '/mysocket'
     }) // port -> 3000 for dev
 
