@@ -1,36 +1,31 @@
-import { Body, IBodyRenderOptions, IBodyRenderOptionsSprite, Vector } from "matter-js";
-import { BodyManager } from "../managers/body_manager";
+import { Body } from "matter-js";
+import { BodyManager } from "../managers/custom_body_manager";
+import { Powerup, PowerupManager } from "./powerups/powerup";
+import { Obstacle, ObstacleManager } from "./obstacles/obstacle";
+import { Entity, EntityManager } from "./entities/entity";
+import { Bullet, BulletManager } from "./bullets/bullet";
 
-export interface BodyRender {
-    vertices: Vector[],
-    render: IBodyRenderOptions,
-    sprite?: SpriteRender,
-    position: Vector,
-    angle: number
-}
+export type CustomBodies = Powerup | Obstacle<String> | Entity<String> | Bullet
+export type CustomBodyManagers = PowerupManager | ObstacleManager | EntityManager | BulletManager
 
-export interface SpriteRender extends IBodyRenderOptionsSprite {
-    xOffset: number,
-    yOffset: number
-}
-
-export type BodyType = 'entity' | 'bullet' | 'obstacle'| 'powerup' 
-
-export interface CustomBody<Type extends BodyType> extends Body {
+export interface CustomBody<Type extends String> extends Body {
     bodyType: Type
 }
 
-export function createCustomBody<Type extends BodyType>(body: Body, type: Type) {
+export function createCustomBody<Type extends String>(body: Body, type: Type) {
     const customBody = <CustomBody<Type>> body
     customBody.bodyType = type
     return customBody;
 }
 
-export interface CustomBodyManager {
-    manager: BodyManager
-    isType: (body: CustomBody<BodyType>) => body is CustomBody<BodyType>
-    manage: (body: CustomBody<BodyType>) => void
-    remove: (body: CustomBody<BodyType>) => void
+export interface CustomBodyManager<Body extends CustomBody<String>> {
+    bodyManager: BodyManager
+    isType: (body: CustomBody<String>) => body is Body
+    manage: () => void
+    remove: (body: CustomBody<String>) => void
+    add: (body: CustomBody<String>) => void
+    addToWorld: (body: CustomBody<String>) => void
+    removeFromWorld: (body: CustomBody<String>) => void
 }
 
 

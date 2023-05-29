@@ -1,6 +1,7 @@
-import { Bodies, Body, Engine, Runner, World } from "matter-js";
+import { Bodies, Body, Engine, Runner, Vector, World } from "matter-js";
 import { GameManager } from "./managers/game_manager";
 import { Socket } from "socket.io";
+import inBetween from "../util/in_between";
 
 export class GameEngine {
 
@@ -23,22 +24,23 @@ export class GameEngine {
             isFixed: true
         })  
 
-        this.manager = new GameManager(this.engine)
-
         this.setup()
-        
-        Runner.run(this.runner, this.engine)
+        this.manager = new GameManager(this)
     }
 
     setup() {
         this.setupWorld()
-        this.manager.setup()
+        this.setupRunner()
     }
 
     setupWorld() {
         const background = this.createBackground()
         const borders = this.createBorders()
         World.add(this.engine.world, [background, ...borders])
+    }
+
+    setupRunner() {
+        Runner.run(this.runner, this.engine)
     }
 
     createBackground(): Body {
@@ -69,6 +71,13 @@ export class GameEngine {
             Bodies.rectangle(0, this.WORLD_SIZE/2, this.BORDER_SIZE, this.WORLD_SIZE + this.BORDER_SIZE, options),
             Bodies.rectangle(this.WORLD_SIZE, this.WORLD_SIZE/2, this.BORDER_SIZE, this.WORLD_SIZE + this.BORDER_SIZE, options)
         ]
+    }
+
+    createRandomPosition(): Vector {
+        return {
+            x: inBetween(this.BORDER_SIZE, this.WORLD_SIZE - this.BORDER_SIZE),
+            y: inBetween(this.BORDER_SIZE, this.WORLD_SIZE - this.BORDER_SIZE)
+        }
     }
 
     onSocketConnect(socket: Socket) {

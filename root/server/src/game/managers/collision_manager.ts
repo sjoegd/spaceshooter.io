@@ -3,17 +3,10 @@ import { GameManager } from "./game_manager";
 
 export class CollisionManager {
 
-    manager: GameManager
+    gameManager: GameManager
 
-    constructor(manager: GameManager) {
-        this.manager = manager;
-        this.setup()
-    }
-
-    setup() {
-        Events.on(this.manager.engine, 'collisionStart', (ev) => {
-
-        })
+    constructor(gameManager: GameManager) {
+        this.gameManager = gameManager;
     }
 
 }

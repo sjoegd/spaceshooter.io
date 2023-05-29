@@ -1,5 +1,5 @@
-import { BodyManager } from "../../managers/body_manager";
-import { CustomBody, CustomBodyManager, BodyType } from "../custom_body";
+import { BodyManager } from "../../managers/custom_body_manager";
+import { CustomBody, CustomBodyManager } from "../custom_body";
 
 export interface Powerup extends CustomBody<'powerup'> {
     effect: PowerupEffect
@@ -13,24 +13,55 @@ export function createPowerup() {
 
 }
 
-export class PowerupManager implements CustomBodyManager {
+export class PowerupManager implements CustomBodyManager<Powerup> {
     
-    manager: BodyManager
+    bodyManager: BodyManager
+    
+    effects: PowerupEffect[] = []
+    powerups: Powerup[] = []
 
     constructor(manager: BodyManager) {
-        this.manager = manager;
+        this.bodyManager = manager;
     }
 
-    isType(body: CustomBody<BodyType>): body is Powerup {
+    createPowerups() {
+        
+    }
+
+    createRandomPowerup() {
+
+    }
+
+    manage() {
+        
+    }
+
+    managePowerup() {
+
+    }
+
+    add(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        this.powerups.push(body)
+    }
+
+    remove(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        this.powerups = this.powerups.filter(p => p.id !== body.id)
+    }
+
+    addToWorld(body: CustomBody<String>) {
+        this.bodyManager.addBodyToWorld(body)
+    }
+
+    removeFromWorld(body: CustomBody<String>) {
+        this.bodyManager.removeBodyFromWorld(body)
+    }
+    
+    isType(body: CustomBody<String>): body is Powerup {
         return body.bodyType == 'powerup'
     }
-
-    manage(body: CustomBody<BodyType>) {
-        const powerup = <Powerup> body
-    }
-
-    remove(body: CustomBody<BodyType>) {
-        this.manager.removeBody(body)
-    }
 }
+
+
 

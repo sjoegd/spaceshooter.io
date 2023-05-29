@@ -1,50 +1,80 @@
-import { BodyManager } from "../../managers/body_manager";
-import { CustomBody, CustomBodyManager, BodyType } from "../custom_body";
-import { AsteroidManager } from "./asteroid";
+import { Body } from "matter-js";
+import { BodyManager } from "../../managers/custom_body_manager";
+import { CustomBody, CustomBodyManager } from "../custom_body";
+import { Asteroid, AsteroidManager } from "./asteroid";
 
-export type ObstacleType = 'asteroid' 
-
-export interface Obstacle<Type extends ObstacleType> extends CustomBody<'obstacle'> {
+export type CustomObstacles = Asteroid 
+export type CustomObstacleManagers = AsteroidManager 
+export interface Obstacle<Type extends String> extends CustomBody<'obstacle'> {
     obstacleType: Type
 }
 
-export function createObstacle() {
-    
+export function createObstacle<Type extends String>(body: Body, type: Type): Obstacle<Type> {
+    const obstacle = <Obstacle<Type>> body;
+    obstacle.obstacleType = type;
+    return obstacle
 }
 
-export class ObstacleManager implements CustomBodyManager {
+export class ObstacleManager implements CustomBodyManager<Obstacle<String>> {
     
-    manager: BodyManager
+    bodyManager: BodyManager
 
-    managers: CustomObstacleManager[]
+    managers: CustomObstacleManagers[]
     asteroidManager: AsteroidManager
 
     constructor(manager: BodyManager) {
-        this.manager = manager;
+        this.bodyManager = manager;
         this.asteroidManager = new AsteroidManager(this)
         this.managers = [this.asteroidManager]
     }
 
-    isType(body: CustomBody<BodyType>): body is Obstacle<ObstacleType> {
-        return body.bodyType == 'obstacle'
+    createObstacles() {
+        
     }
 
-    manage(body: CustomBody<BodyType>) {
-        const obstacle = <Obstacle<ObstacleType>> body
+    createRandomObstacle() {
+
+    }
+
+    manage() {
         for(const manager of this.managers) {
-            if(!manager.isType(obstacle)) continue;
-            manager.manage(obstacle)
+            manager.manage()
         }
     }
 
-    remove(body: CustomBody<BodyType>) {
-        this.manager.removeBody(body)
+    add(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        for(const manager of this.managers) {
+            manager.add(body)
+        }
+    }
+
+    remove(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        for(const manager of this.managers) {
+            manager.remove(body)
+        }
+    }
+
+    addToWorld(body: CustomBody<String>) {
+        this.bodyManager.addBodyToWorld(body)
+    }
+
+    removeFromWorld(body: CustomBody<String>) {
+        this.bodyManager.removeBodyFromWorld(body)
+    }
+
+    isType(body: CustomBody<String>): body is Obstacle<String> {
+        return body.bodyType == 'obstacle'
     }
 }
 
-export interface CustomObstacleManager {
-    manager: ObstacleManager
-    isType: (obstacle: Obstacle<ObstacleType>) => obstacle is Obstacle<ObstacleType>
-    manage: (obstacle: Obstacle<ObstacleType>) => void
-    createRandom: (x: number, y: number) => Obstacle<ObstacleType>
+export interface CustomObstacleManager<CustomObstacle extends Obstacle<String>> {
+    obstacleManager: ObstacleManager
+    obstacles: CustomObstacle[]
+    isType: (obstacle: Obstacle<String>) => obstacle is CustomObstacle
+    manage: () => void
+    remove: (obstacle: Obstacle<String>) => void
+    add: (obstacle: Obstacle<String>) => void
+    createRandom: (x: number, y: number) => void
 }

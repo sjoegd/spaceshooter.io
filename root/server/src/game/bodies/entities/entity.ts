@@ -1,62 +1,73 @@
 import { Body } from "matter-js";
-import { BodyManager } from "../../managers/body_manager";
-import { CustomBody, CustomBodyManager, BodyType } from "../custom_body";
-import { SpacejetManager } from "./spacejet";
+import { BodyManager } from "../../managers/custom_body_manager";
+import { CustomBody, CustomBodyManager, createCustomBody } from "../custom_body";
+import { Spacejet, SpacejetManager } from "./spacejet/spacejet";
 
-export type EntityType = 'spacejet'
 
-export interface Entity<Type extends EntityType> extends CustomBody<'entity'> {
+export type CustomEntities = Spacejet
+export type CustomEntityManagers = SpacejetManager
+
+export interface Entity<Type extends String> extends CustomBody<'entity'> {
     entityType: Type
 }
 
-export function createEntity<Type extends EntityType>(type: Type, body: Body) {
-    const entity = <Entity<Type>> body;
+export function createEntity<Type extends String>(body: Body, type: Type) {
+    const entity = <Entity<Type>> createCustomBody(body, 'entity')
     entity.entityType = type;
     return entity
 }
 
-export class EntityManager implements CustomBodyManager {
+export class EntityManager implements CustomBodyManager<Entity<String>> {
 
-    manager: BodyManager
+    bodyManager: BodyManager
     
-    managers: CustomEntityManager[]
+    managers: CustomEntityManagers[]
     spacejetManager: SpacejetManager
 
     constructor(manager: BodyManager) {
-        this.manager = manager;
+        this.bodyManager = manager;
         this.spacejetManager = new SpacejetManager(this)
         this.managers = [this.spacejetManager]
     }
 
-    isType(body: CustomBody<BodyType>): body is Entity<EntityType> {
+    manage() {
+        for(const manager of this.managers) {
+            manager.manage()
+        }
+    }
+
+    add(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        for(const manager of this.managers) {
+            manager.add(body)
+        }
+    }
+
+    remove(body: CustomBody<String>) {
+        if(!this.isType(body)) return;
+        for(const manager of this.managers) {
+            manager.remove(body)
+        }
+    }
+
+    addToWorld(body: CustomBody<String>) {
+        this.bodyManager.addBodyToWorld(body)
+    }
+
+    removeFromWorld(body: CustomBody<String>) {
+        this.bodyManager.removeBodyFromWorld(body)
+    }
+
+    isType(body: CustomBody<String>): body is Entity<String> {
         return body.bodyType == 'entity'
-    }
-
-    manage(body: CustomBody<BodyType>) {
-        const entity = <Entity<EntityType>> body
-        for(const manager of this.managers) {
-            if(!manager.isType(entity)) continue;
-            manager.manage(entity)
-        }
-    }
-
-    remove(body: CustomBody<BodyType>) {
-        this.manager.removeBody(body)
-    }
-
-    // could maybe generalize
-    handleDamage(body: CustomBody<BodyType>) {
-        const entity = <Entity<EntityType>> body
-        for(const manager of this.managers) {
-            if(!manager.isType(entity)) continue;
-            manager.handleDamage(entity)
-        }
     }
 }
 
-export interface CustomEntityManager {
-    manager: EntityManager
-    isType: (entity: Entity<EntityType>) => entity is Entity<EntityType>
-    manage: (entity: Entity<EntityType>) => void
-    handleDamage: (entity: Entity<EntityType>) => void
+export interface CustomEntityManager<CustomEntity extends Entity<String>> {
+    entityManager: EntityManager
+    entities: CustomEntity[]
+    isType: (entity: Entity<String>) => entity is CustomEntity
+    manage: () => void
+    remove: (body: Entity<String>) => void
+    add: (body: Entity<String>) => void
 }

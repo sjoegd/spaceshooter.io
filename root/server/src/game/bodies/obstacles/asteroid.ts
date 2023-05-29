@@ -1,34 +1,78 @@
 import { Bodies, Vector } from "matter-js";
-import { CustomObstacleManager, Obstacle, ObstacleManager, ObstacleType } from "./obstacle";
+import { CustomObstacleManager, Obstacle, ObstacleManager, createObstacle } from "./obstacle";
 import inBetween from "../../../util/in_between";
+import { SpriteRender } from "../../../../../types/render_types";
 
 export interface Asteroid extends Obstacle<'asteroid'> {
+    BASE_SIZE: number
+    BASE_DENSITY: number
+    BASE_SPEED: number
+    SPEED_INCREMENT: number
 
+    size: number
+    spin: number
 }
 
 export function createAsteroid(x: number, y: number, size: number, direction: Vector, spin: number): Asteroid {
-    const body = Bodies.circle(1, 1, 1)
+    const BASE_SIZE = 50;
+    const BASE_DENSITY = 0.05;
+    const SCALE = 1/4;
+
+    const sprite: SpriteRender = {
+        texture: 'body/asteroid.jpg',
+        xScale: SCALE * size,
+        yScale: SCALE * size,
+        xOffset: 0,
+        yOffset: 0
+    }
+    
+    const body = Bodies.circle(x, y, BASE_SIZE * size, {
+        density: BASE_DENSITY,
+        frictionAir: 0,
+        friction: 0,
+        frictionStatic: 0,
+        render: {
+            sprite
+        }
+    })
+
+    const asteroid = <Asteroid> createObstacle(body, 'asteroid')
+    
+    asteroid.spin = spin;
+    asteroid.BASE_SPEED = Vector.magnitude(direction)
+
     return <Asteroid> body
 }
 
-export class AsteroidManager implements CustomObstacleManager {
+export class AsteroidManager implements CustomObstacleManager<Asteroid> {
 
-    manager: ObstacleManager
+    obstacleManager: ObstacleManager
+    spawnRate = 0.05;
+
+    obstacles: Asteroid[] = []
 
     constructor(manager: ObstacleManager) {
-        this.manager = manager;
+        this.obstacleManager = manager;
     }
 
-    isType(obstacle: Obstacle<ObstacleType>): obstacle is Asteroid {
-        return obstacle.obstacleType == 'asteroid'
+    manage() {
+
     }
 
-    manage(obstacle: Obstacle<ObstacleType>): void {
-        const asteroid = <Asteroid> obstacle;
+    add(obstacle: Obstacle<String>) {
+        if(!this.isType(obstacle)) return;
+        this.obstacles.push(obstacle)
     }
 
-    createRandom(x: number, y: number): Asteroid {
-        return createAsteroid(x, y, this.getRandomSize(), this.getRandomDirection(), this.getRandomSpin())
+    remove(obstacle: Obstacle<String>) {
+        if(!this.isType(obstacle)) return;
+        this.obstacles = this.obstacles.filter(o => o.id !== obstacle.id)
+    }
+
+    createRandom(x: number, y: number): void {
+        const asteroid = createAsteroid(x, y, this.getRandomSize(), this.getRandomDirection(), this.getRandomSpin())
+        this.add(asteroid)
+        this.obstacleManager.addToWorld(asteroid)
     }
 
     getRandomSize(): number {
@@ -44,6 +88,10 @@ export class AsteroidManager implements CustomObstacleManager {
 
     getRandomSpin(): number {
         return inBetween(0.0025, 0.025)
+    }
+
+    isType(obstacle: Obstacle<String>): obstacle is Asteroid {
+        return obstacle.obstacleType == 'asteroid'
     }
 
 }

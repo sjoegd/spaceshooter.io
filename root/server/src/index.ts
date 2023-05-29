@@ -6,7 +6,6 @@ const app = express()
 const port = 3000
 
 // Temporary cors middleware
-// from https://stackoverflow.com/questions/55522717/how-to-enable-cors-in-nodejs
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -15,7 +14,6 @@ app.use((req, res, next) => {
     next();
 })
 
-// Setup static file serving
 app.use(express.static("../client/dist"))
 
 const httpServer = app.listen(3000, () => {
@@ -33,9 +31,10 @@ const lobby = new GameEngine()
 
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
-
     lobby.onSocketConnect(socket)
+
     socket.on('disconnect', () => {
+        console.log(`Socket disconnected: ${socket.id}`)
         lobby.onSocketDisconnect(socket)
     })
 })
