@@ -8,6 +8,12 @@ import { Vector } from "matter-js";
 import { PlayerStateRender } from "../../../../types/render_types";
 
 export class CreatureManager {
+    /**
+     * TODO:
+     * Split into Spaceshooter manager and Mob manager
+     * Player/Alien should be forwarded to Spaceshooter
+     * All mobs should be forwarded to Mob manager
+    */
 
     gameManager: GameManager
     playerInputManager: PlayerInputManager

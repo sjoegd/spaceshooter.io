@@ -17,17 +17,18 @@ export class SocketManager {
 
         // information handshake 
 
-        // talk to creature manager, 
-        // -> creates player instance for socket
+        // setup base communication
         // -> send necesarry socket input to creature manager
-        this.gameManager.creatureManager.addSocketPlayer(socket)
-
         socket.on('key', (key: string, down: boolean) => {
             this.gameManager.creatureManager.onSocketKeyInput(socket, key, down)
         })
 
-        // on disconnect, respawn, etc
+        // on start, play, respawn etc
         // -> creature manager handles
+
+        // when player wants to play
+        // -> creates player instance for socket
+        this.gameManager.creatureManager.addSocketPlayer(socket)
     }
 
     onDisconnect(socket: Socket) {

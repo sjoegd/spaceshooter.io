@@ -1,5 +1,5 @@
 import { Body } from "matter-js";
-import { BodyManager } from "../../managers/custom_body_manager";
+import { BodyManager } from "../../managers/body_manager";
 import { CustomBody, CustomBodyManager, createCustomBody } from "../custom_body";
 import { Spacejet, SpacejetManager } from "./spacejet/spacejet";
 

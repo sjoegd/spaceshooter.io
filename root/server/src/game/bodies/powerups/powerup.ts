@@ -1,4 +1,4 @@
-import { BodyManager } from "../../managers/custom_body_manager";
+import { BodyManager } from "../../managers/body_manager";
 import { CustomBody, CustomBodyManager } from "../custom_body";
 
 export interface Powerup extends CustomBody<'powerup'> {
@@ -17,7 +17,12 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
     
     bodyManager: BodyManager
     
-    effects: PowerupEffect[] = []
+    EFFECT = {
+
+    }
+
+    EFFECT_LIST: PowerupEffect[] = []
+
     powerups: Powerup[] = []
 
     constructor(manager: BodyManager) {
@@ -25,19 +30,18 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
     }
 
     createPowerups() {
-        
     }
 
     createRandomPowerup() {
 
     }
 
-    manage() {
-        
+    getRandomEffect() {
+
     }
 
-    managePowerup() {
-
+    manage() {
+        
     }
 
     add(body: CustomBody<String>) {

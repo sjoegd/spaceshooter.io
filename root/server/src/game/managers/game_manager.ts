@@ -1,6 +1,6 @@
 import { Body, Engine, Events, Vector, World } from "matter-js";
 import { SocketManager } from "./socket_manager";
-import { BodyManager } from "./custom_body_manager";
+import { BodyManager } from "./body_manager";
 import { CollisionManager } from "./collision_manager";
 import { GameEngine } from "../game_engine";
 import { CreatureManager } from "./creature_manager";
@@ -58,7 +58,6 @@ export class GameManager {
     manageGame() {
         this.creatureManager.manageCreatures()
         this.bodyManager.manageBodies()
-        // ...?
     }
 
     createRandomPosition(): Vector {

@@ -1,5 +1,5 @@
 import { Body } from "matter-js";
-import { BodyManager } from "../managers/custom_body_manager";
+import { BodyManager } from "../managers/body_manager";
 import { Powerup, PowerupManager } from "./powerups/powerup";
 import { Obstacle, ObstacleManager } from "./obstacles/obstacle";
 import { Entity, EntityManager } from "./entities/entity";
