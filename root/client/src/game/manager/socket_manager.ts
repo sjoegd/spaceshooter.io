@@ -35,7 +35,6 @@ export class SocketManager {
 
         this.socket.on('player-state-update', (playerState: PlayerStateRender) => {
             this.engine.render.updatePlayerState(playerState)
-            console.log(playerState)
         })
 
         this.socket.on('death', () => {

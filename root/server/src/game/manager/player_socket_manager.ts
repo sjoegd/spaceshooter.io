@@ -46,8 +46,8 @@ export class PlayerSocketManager {
         // add player instance if not present
         if(!playerSocket.player) {
             playerSocket.player = this.gameEngine.gameManager.controllerManager.spacejetControllerManager.createPlayer(playerSocket)
-            playerSocket.player.startSocketConnection()
             this.gameEngine.gameManager.controllerManager.addController(playerSocket.player)
+            playerSocket.player.startSocketConnection()
         }
     }
 

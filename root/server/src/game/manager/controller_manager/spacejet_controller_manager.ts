@@ -3,6 +3,7 @@ import { SpacejetController } from '../../controller/spacejet/spacejet_controlle
 import { ControllerManager } from './controller_manager';
 import { PlayerSocket } from '../player_socket_manager';
 import { RLAgent } from '../../controller/spacejet/rl_agent';
+import { Bot } from '../../bot/bot';
 
 type rewardAction =
     'killEnemy' |
@@ -41,10 +42,10 @@ export class SpacejetControllerManager {
         return player;
     }
     
-    createRLAgent(): RLAgent {
+    createRLAgent(bot: Bot): RLAgent {
         const {x, y} = this.controllerManager.gameManager.createRandomPosition()
         const spacejet = this.controllerManager.gameManager.bodyManager.factory.createSpacejet(x, y, 'alien')
-        const rlAgent = new RLAgent(this, spacejet)
+        const rlAgent = new RLAgent(this, spacejet, bot)
         return rlAgent
     }
 

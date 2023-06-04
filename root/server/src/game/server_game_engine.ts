@@ -5,18 +5,23 @@ import { PlayerSocketManager } from "./manager/player_socket_manager";
 import { BodyRender } from "../../../types/render_types";
 import { CustomBody } from "./body/body";
 import { ControllerManager } from "./manager/controller_manager/controller_manager";
+import { BotManager } from './manager/bot_manager';
 
 export const BASE_TICK_RATE = 60;
 
 export class ServerGameEngine {
 
     TICK_RATE;
+    BOT_EXPORT_TICKS = 10000;
+
+    currentTick = 1;
 
     engine: Engine
     world: World
 
     gameManager: GameManager
     socketManager: PlayerSocketManager
+    botManager: BotManager
 
     constructor(tickRate: number = BASE_TICK_RATE) {
         this.TICK_RATE = tickRate;
@@ -28,17 +33,25 @@ export class ServerGameEngine {
 
         this.gameManager = new GameManager(this)
         this.socketManager = new PlayerSocketManager(this)
+        this.botManager = new BotManager(this)
 
         this.setupGameLoop()
         this.setupGameStateUpdates()
-        this.setupPlayerStateUpdates()
     }
 
     setupGameLoop() {
         setInterval(() => {
+
+            if(this.currentTick % this.BOT_EXPORT_TICKS == 0) {
+                this.botManager.exportBots()
+            }
+
             this.gameManager.manageGameBeforeUpdate()
             Engine.update(this.engine, 1000/BASE_TICK_RATE)
             this.gameManager.manageGameAfterUpdate()
+
+            this.currentTick++;
+
         }, 1000/this.TICK_RATE)
     }
 
@@ -47,10 +60,6 @@ export class ServerGameEngine {
             const bodyRenders = this.world.bodies.sort(this.sortBody).map(b => this.getBodyRender(b))
             this.socketManager.onGameStateUpdate(bodyRenders)
         })
-    }
-
-    setupPlayerStateUpdates() {
-
     }
 
     connectSocket(socket: Socket) {

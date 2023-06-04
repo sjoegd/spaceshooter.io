@@ -29,7 +29,6 @@ export class BulletManager implements CustomBodyManager<'bullet'> {
 
         if(killed) {
             source.owner.controller!.onAsteroidDestroyed(target.mass)
-            console.log(`Spacejet: ${source.owner.id} killed an asteroid`)
         }
     }
 
@@ -42,7 +41,6 @@ export class BulletManager implements CustomBodyManager<'bullet'> {
                 source.owner.enemyKills++ 
                 source.owner.controller!.onEnemyKill()
             }
-            console.log(`Spacejet: ${source.owner.id} killed: ${target.id}`)
         }
     }
 
