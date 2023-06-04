@@ -1,6 +1,6 @@
 import {default as express} from "express";
 import { Server } from "socket.io"
-import { GameEngine } from "./game/game_engine";
+import { ServerGameEngine } from "./game/server_game_engine";
 
 const app = express()
 const port = 3000
@@ -27,15 +27,16 @@ const io = new Server(httpServer, {
     }
 })
 
-const lobby = new GameEngine()
+// host multiple lobbies for multiple different worlds
+const lobby = new ServerGameEngine(60)
 
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)
-    lobby.onSocketConnect(socket)
+    lobby.connectSocket(socket)
 
     socket.on('disconnect', () => {
         console.log(`Socket disconnected: ${socket.id}`)
-        lobby.onSocketDisconnect(socket)
+        lobby.disconnectSocket(socket)
     })
 })
 

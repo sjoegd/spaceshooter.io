@@ -1,6 +1,6 @@
-import { IBodyRenderOptionsSprite } from 'matter-js';
+import { Vector, IBodyRenderOptions } from 'matter-js';
 
-export interface StateRender {
+export interface GameStateRender {
     bodyRenders: BodyRender[],
     origin?: Vector
 }
@@ -12,7 +12,6 @@ export interface BodyRender {
     angle: number
 }
 
-// matter-js types are bad, they didn't include these two which are necesarry
 export interface SpriteRender {
     texture: string,
     xScale: number,
@@ -25,4 +24,5 @@ export interface PlayerStateRender {
     health?: number,
     shield?: number,
     ammo?: number
+    score?: number
 }
