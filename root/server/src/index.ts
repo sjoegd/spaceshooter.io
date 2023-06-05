@@ -7,14 +7,15 @@ const port = 3000
 
 /**
  * TODO:
- * use the 'minimist' library to read input 
+ * use the 'minimist' package to read input 
  * 
  * create flag: -train
  *  present -> ServerGameEngine will train agent(s)
  *  not present -> ServerGameEngine will act normally
  * 
  * Find a way to run as production / dev
- * 
+ * package: cross-env
+ * and then NODE_ENV=PRODUCTION / NODE_ENV=DEVELOPMENT
  */
 
 // Temporary cors middleware (for development)
