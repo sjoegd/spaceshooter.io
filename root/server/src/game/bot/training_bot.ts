@@ -1,12 +1,12 @@
-import { RLAgent } from "../../controller/spacejet/rl_agent";
-import { Bot } from "../bot";
+import { RLAgent } from "../controller/spacejet/rl_agent";
+import { Bot } from "./bot";
 // import wasn't resolving
 // @ts-ignore 
-import { DQNAgent } from 'c:/Users/sjoer/Documents/Web Development/projects/spaceshooter.io/root/server/node_modules/@brain/rl/dist/rl.js';
+import { DQNAgent } from '../../../node_modules/@brain/rl/dist/rl.js'
 // import { DQNAgent } from '@brain/rl'
 import { writeFile } from "fs";
 import { UUID, randomUUID } from "crypto";
-import { BotManager } from "../../manager/bot_manager";
+import { BotManager } from "../manager/bot_manager";
 import path from "path";
 
 export class TrainingBot implements Bot {
@@ -33,7 +33,7 @@ export class TrainingBot implements Bot {
     }
 
     exportDQNAgent() {
-        writeFile(path.resolve(__dirname, `../bot_json/${this.id}.json`), JSON.stringify(this.DQN.toJSON()), () => null)
+        writeFile(path.resolve(__dirname, `./bot_json/${this.id}.json`), JSON.stringify(this.DQN.toJSON()), () => {console.log(`Exported ${this.id}`)})
     }
     
 }

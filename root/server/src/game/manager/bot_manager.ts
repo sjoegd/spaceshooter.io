@@ -1,12 +1,12 @@
 import { ServerGameEngine } from "../server_game_engine";
 import { Bot } from '../bot/bot';
-import { TrainingBot } from "../bot/training_bot/training_bot";
+import { TrainingBot } from "../bot/training_bot";
 
 export class BotManager {
 
     gameEngine: ServerGameEngine
 
-    trainingBotAmount: number = 1
+    trainingBotAmount: number = 0
 
     bots: TrainingBot[] = []
 

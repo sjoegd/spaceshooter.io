@@ -57,6 +57,7 @@ export class ServerGameEngine {
 
     setupGameStateUpdates() {
         Events.on(this.engine, 'afterUpdate', () => {
+            if(!this.socketManager.shouldGiveGameStateUpdate()) return;
             const bodyRenders = this.world.bodies.sort(this.sortBody).map(b => this.getBodyRender(b))
             this.socketManager.onGameStateUpdate(bodyRenders)
         })

@@ -60,6 +60,10 @@ export class PlayerSocketManager {
         }
     }
 
+    shouldGiveGameStateUpdate() {
+        return this.playerSockets.length > 0
+    }
+
     onGameStateUpdate(bodyRenders: BodyRender[]) {
         for(const socket of this.playerSockets) {
             const gameStateRender: GameStateRender = {
