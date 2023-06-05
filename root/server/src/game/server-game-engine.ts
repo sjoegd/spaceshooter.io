@@ -1,5 +1,6 @@
 import { Engine } from "matter-js";
 import { GameManager } from './manager/game-manager';
+import { Socket } from "socket.io";
 
 export const BASE_TICK_RATE: number = 60;
 
@@ -51,4 +52,11 @@ export class ServerGameEngine {
         this.gameLoop = this.createGameLoop();
     }
 
+    connectSocket(socket: Socket) {
+        //
+    }
+
+    disconnectSocket(socket: Socket) {
+        //
+    }
 }

@@ -5,8 +5,24 @@ import { ServerGameEngine } from "./game/server-game-engine";
 const app = express()
 const port = 3000
 
-// Temporary cors middleware
+/**
+ * TODO:
+ * use the 'minimist' library to read input 
+ * 
+ * create flag: -train
+ *  present -> ServerGameEngine will train agent(s)
+ *  not present -> ServerGameEngine will act normally
+ * 
+ * Find a way to run as production / dev
+ * 
+ */
+
+// Temporary cors middleware (for development)
 app.use((req, res, next) => {
+
+    // TODO: Log IP and other information
+    req.ip
+
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
@@ -27,18 +43,18 @@ const io = new Server(httpServer, {
     }
 })
 
-// // host multiple lobbies for multiple different worlds
-const lobby = new ServerGameEngine(60)
+// host multiple lobbies for multiple different worlds
+const lobby = new ServerGameEngine()
 
-// io.on('connection', (socket) => {
-//     console.log(`Socket connected: ${socket.id}`)
-//     lobby.connectSocket(socket)
+io.on('connection', (socket) => {
+    console.log(`Socket connected: ${socket.id}`)
+    lobby.connectSocket(socket)
 
-//     socket.on('disconnect', () => {
-//         console.log(`Socket disconnected: ${socket.id}`)
-//         lobby.disconnectSocket(socket)
-//     })
-// })
+    socket.on('disconnect', () => {
+        console.log(`Socket disconnected: ${socket.id}`)
+        lobby.disconnectSocket(socket)
+    })
+})
 
 
 
