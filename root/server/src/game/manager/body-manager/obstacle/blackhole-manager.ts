@@ -3,8 +3,8 @@ import { Blackhole, isBlackhole } from "../../../custom-body/obstacle/blackhole"
 import { BodyManager, CustomBodyManager } from "../body-manager";
 import { ObstacleManager } from "./obstacle-manager";
 import { Vector, Body } from 'matter-js';
-import { isAsteroid } from '../../../custom-body/obstacle/asteroid';
-import { isEntity } from '../../../custom-body/entity/entity';
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { Entity, isEntity } from '../../../custom-body/entity/entity';
 
 export class BlackholeManager extends ObstacleManager implements CustomBodyManager<Blackhole> {
 
@@ -20,14 +20,13 @@ export class BlackholeManager extends ObstacleManager implements CustomBodyManag
 
     manageBlackhole(blackhole: Blackhole) {
 
-        const exceeded = this.manageLifeTimeExcedence(blackhole)
+        const exceeded = this.manageLifeTimeExceedance(blackhole)
         if(exceeded) return;
 
         this.managePullForce(blackhole)
     }
 
-    // update name
-    manageLifeTimeExcedence(blackhole: Blackhole): boolean {
+    manageLifeTimeExceedance(blackhole: Blackhole): boolean {
         const lifeTimeExceeded = blackhole.birth + blackhole.lifeTime < this.bodyManager.gameManager.getCurrentTick()
         if(lifeTimeExceeded) {
             this.bodyManager.removeCustomBody(blackhole)
@@ -61,19 +60,29 @@ export class BlackholeManager extends ObstacleManager implements CustomBodyManag
         if(!this.isBodyType(source)) return;
 
         if(isAsteroid(target)) {
-            // deal infinity damage
-
+            this.onAsteroidCollision(source, target)
             return;
         }
 
         if(isEntity(target)) {
-            // deal hp+shield damage
-
+            this.onEntityCollision(source, target)
             return;
         }
 
         // else just remove
         this.bodyManager.removeCustomBody(target)
+    }
+
+    onAsteroidCollision(_source: Blackhole, target: Asteroid) {
+        // deal infinity damage
+        const damage = Infinity;
+        target.manager.dealDamage(target, damage)
+    }
+
+    onEntityCollision(_source: Blackhole, target: Entity) {
+        // deal hp+shield damage
+        const damage = target.hp + target.shield
+        target.manager.dealDamage(target, damage)
     }
 
     isBodyType(body: CustomBody): body is Blackhole {

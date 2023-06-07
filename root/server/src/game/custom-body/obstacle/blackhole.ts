@@ -55,7 +55,7 @@ export function createBlackhole(x: number, y: number, manager: BlackholeManager,
         }
     })
 
-    const customBody = createCustomBody(body, 'obstacle', manager)
+    const customBody = createCustomBody(body, 'obstacle', manager, 0)
     const blackhole = <Blackhole> createObstacle(customBody, {
         obstacleType: 'blackhole',
         baseSize,

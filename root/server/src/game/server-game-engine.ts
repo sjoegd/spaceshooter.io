@@ -1,13 +1,13 @@
 import { Engine } from "matter-js";
-import { GameManager } from './manager/game-manager';
 import { Socket } from "socket.io";
+import { GameManager } from './manager/game-manager';
 
 export const BASE_TICK_RATE: number = 60;
 
 export class ServerGameEngine {
 
     tickRate: number;
-    currentTick: number = 0;
+    currentTick: number = 1;
     gameLoop: NodeJS.Timer;
 
     physicsEngine: Engine;
@@ -53,10 +53,10 @@ export class ServerGameEngine {
     }
 
     connectSocket(socket: Socket) {
-        //
+        this.gameManager.socketManager.addSocket(socket)
     }
 
     disconnectSocket(socket: Socket) {
-        //
+        this.gameManager.socketManager.removeSocket(socket)
     }
 }

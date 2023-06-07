@@ -3,7 +3,8 @@ import { Entity, isEntity } from "../../../custom-body/entity/entity";
 import { BodyManager, CustomBodyManager } from "../body-manager";
 import { SpacejetManager } from "./spacejet-manager";
 import { Vector, Body } from 'matter-js';
-import { isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { isSpacejet } from "../../../custom-body/entity/spacejet/spacejet";
 
 export class EntityManager implements CustomBodyManager<Entity> {
     
@@ -19,7 +20,7 @@ export class EntityManager implements CustomBodyManager<Entity> {
     }
 
     manageEntity(entity: Entity) {
-        this.manageEntity(entity)
+        this.manageMovement(entity)
     }
 
     manageMovement(entity: Entity) {
@@ -66,12 +67,56 @@ export class EntityManager implements CustomBodyManager<Entity> {
         if(!this.isBodyType(source)) return;
 
         if(isAsteroid(target)) {
-            // deal crash damage
+            this.onAsteroidCollision(source ,target)
+            return;
         }
 
         if(isEntity(target)) {
-            // deal crash damage
+            this.onEntityCollision(source ,target)
+            return;
         }
+    }
+
+    onAsteroidCollision(source: Entity, target: Asteroid) {
+        // deal crash damage
+        const damage = this.bodyManager.calculateCrashDamage(source, target)
+        target.manager.dealDamage(target, damage)
+    }
+
+    onEntityCollision(source: Entity, target: Entity) {
+        // deal crash damage
+        const damage = this.bodyManager.calculateCrashDamage(source, target)
+        target.manager.dealDamage(target, damage)
+    }
+
+    dealDamage(target: Entity, damage: number) {
+
+        target.controller!.onEntityDamageTaken(damage)
+
+        // handle shield
+        if(target.shield > 0) {
+            const left = target.shield - damage;
+
+            if(left >= 0) {
+                target.shield = left
+                damage = 0;
+            } else {
+                target.shield = 0;
+                damage = -left;
+            }
+        }
+
+        // deal leftover damage to hp
+        target.hp -= damage;
+
+        // handle death
+        if(target.hp <= 0) {
+            target.controller!.onEntityDeath()
+            this.bodyManager.removeCustomBody(target)
+            return true;
+        }
+
+        return false
     }
 
     isBodyType (body: CustomBody): body is Entity {

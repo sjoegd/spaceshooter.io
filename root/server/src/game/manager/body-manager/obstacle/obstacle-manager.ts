@@ -41,8 +41,9 @@ export class ObstacleManager implements CustomBodyManager<Obstacle> {
         }
     }
 
-    onCollision(source: CustomBody, target: CustomBody) {
+    onCollision(source: CustomBody, _target: CustomBody) {
         if(!this.isBodyType(source)) return;
+        // ...
     }
 
     isBodyType (body: CustomBody): body is Obstacle {

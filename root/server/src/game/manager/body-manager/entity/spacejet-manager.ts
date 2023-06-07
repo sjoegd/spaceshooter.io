@@ -1,9 +1,10 @@
 import { CustomBody } from "../../../custom-body/custom-body";
-import { Entity } from "../../../custom-body/entity/entity";
+import { Entity, isEntity } from "../../../custom-body/entity/entity";
 import { Spacejet, isSpacejet } from "../../../custom-body/entity/spacejet/spacejet";
 import { BodyManager, CustomBodyManager } from "../body-manager";
 import { EntityManager } from "./entity-manager";
 import { BASE_TICK_RATE } from '../../../server-game-engine';
+import { Asteroid, isAsteroid } from "../../../custom-body/obstacle/asteroid";
 
 export class SpacejetManager extends EntityManager implements CustomBodyManager<Spacejet> {
 
@@ -98,10 +99,39 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
         }
     }
 
-    onCollision(source: CustomBody, target: CustomBody): void {
-        super.onCollision(source, target);
+    onCollision(source: CustomBody, target: CustomBody) {
         if(!this.isBodyType(source)) return;
-        // ...
+
+        if(isAsteroid(target)) {
+            this.onAsteroidCollision(source, target)
+            return;
+        }
+
+        if(isEntity(target)) {
+            this.onEntityCollision(source, target)
+            return;
+        }
+    }
+
+    onAsteroidCollision(source: Spacejet, target: Asteroid) {
+        // deal crash damage
+        const damage = this.bodyManager.calculateCrashDamage(source, target)
+        const killed = target.manager.dealDamage(target, damage)
+
+        if(killed) {
+            source.controller!.onEntityAsteroidDestroyed(target.mass)
+        }
+    }
+
+    onEntityCollision(source: Spacejet, target: Entity) {
+        // deal crash damage
+        const damage = this.bodyManager.calculateCrashDamage(source, target)
+        const killed = target.manager.dealDamage(target, damage)
+
+        if(killed && isSpacejet(target)) {
+            source.enemyKills++;
+            source.controller!.onEntityEnemyKill()
+        }
     }
 
     isBodyType(body: CustomBody): body is Spacejet {

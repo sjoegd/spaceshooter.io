@@ -2,7 +2,7 @@ import { CustomBody } from "../../../custom-body/custom-body";
 import { Powerup, isPowerup } from "../../../custom-body/powerup/powerup";
 import { BodyManager, CustomBodyManager } from "../body-manager";
 import { PowerupEffectBase } from '../../../custom-body/powerup/effect/powerup-effect';
-import inBetween from '../../../../util/in_between';
+import inBetween from '../../../../util/in-between';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
 import { BASE_TICK_RATE } from '../../../server-game-engine';
 
@@ -25,8 +25,22 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
         this.managePowerup(body)
     }
 
-    managePowerup(powerup: Powerup) {
+    managePowerup(_powerup: Powerup) {
         // ... 
+    }
+    
+    onCollision(source: CustomBody, target: CustomBody) {
+        if(!this.isBodyType(source)) return;
+        
+        if(isEntity(target)) {
+            this.onEntityCollision(source, target)
+            return;
+        }
+    }
+
+    onEntityCollision(source: Powerup, target: Entity) {
+        target.controller!.onEntityPowerupTaken()
+        this.applyPowerup(source, target)
     }
 
     applyPowerup(powerup: Powerup, entity: Entity) {
@@ -36,19 +50,10 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
             effect.removeEffect(entity)
         }, (1000/BASE_TICK_RATE) * effect.duration)
     }
-    
+
     getRandomEffect() {
         const i = Math.round(inBetween(0, this.effects.length - 1))
         return this.effects[i]
-    }
-
-    onCollision(source: CustomBody, target: CustomBody) {
-        if(!this.isBodyType(source)) return;
-        
-        if(isEntity(target)) {
-            this.applyPowerup(source, target)
-            // send takePowerup to controller?
-        }
     }
     
     isBodyType (body: CustomBody): body is Powerup {

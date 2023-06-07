@@ -1,11 +1,13 @@
 import { Bodies, Body, Engine, World } from "matter-js";
 import { ServerGameEngine } from "../server-game-engine";
-import inBetween from "../../util/in_between";
+import inBetween from "../../util/in-between";
 import { BodyManager } from "./body-manager/body-manager";
 import { CollisionManager } from './collision-manager';
 import { SocketManager } from './socket-manager';
 import { ControllerManager } from './controller-manager/controller-manager';
 import { AgentManager } from './agent-manager';
+import { BodyRender } from "../../../../types/render_types";
+import { CustomBody } from "../custom-body/custom-body";
 
 
 export class GameManager {
@@ -38,11 +40,13 @@ export class GameManager {
     }
 
     manageGameBeforeUpdate() {
+        this.controllerManager.manageControllersBeforeUpdate()
         this.bodyManager.manageBodies()
     }
 
     manageGameAfterUpdate() {
-
+        this.controllerManager.manageControllersAfterUpdate()
+        this.socketManager.onGameStateUpdate(this.physicsWorld.bodies.sort(this.bodyManager.sortBody).map(b => this.getBodyRender(b)))
     }
 
     setupWorld() {
@@ -90,5 +94,14 @@ export class GameManager {
 
     getCurrentTick() {
         return this.gameEngine.currentTick;
+    }
+
+    getBodyRender(body: Body): BodyRender {
+        return {
+            vertices: body.vertices.map(v => ({x: v.x, y: v.y})),
+            render: body.render,
+            position: body.position,
+            angle: body.angle
+        }
     }
 }
