@@ -7,6 +7,7 @@ import { ObstacleManagers } from './obstacle/obstacle-manager';
 import { AsteroidManager } from './obstacle/asteroid-manager';
 import { BlackholeManager } from './obstacle/blackhole-manager';
 import { SpacejetManager } from './entity/spacejet-manager';
+import { BodyFactory } from '../../factory/body-factory';
 
 export class BodyManager {
 
@@ -16,6 +17,8 @@ export class BodyManager {
     powerupManager: PowerupManager
     entityManagers: EntityManagers
     obstacleManagers: ObstacleManagers
+
+    factory: BodyFactory
 
     customBodies: CustomBody[] = []
     
@@ -31,6 +34,8 @@ export class BodyManager {
             asteroidManager: new AsteroidManager(this),
             blackholeManager: new BlackholeManager(this)
         }
+
+        this.factory = new BodyFactory(this)
     }
 
     manageBodies() {
@@ -52,4 +57,5 @@ export interface CustomBodyManager<BodyType extends CustomBody> {
     bodyManager: BodyManager
     manageBody: (body: CustomBody) => void
     isBodyType: (body: CustomBody) => body is BodyType
+    onCollision: (source: CustomBody, target: CustomBody) => void
 }

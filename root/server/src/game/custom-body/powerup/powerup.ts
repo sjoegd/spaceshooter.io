@@ -3,6 +3,7 @@ import { PowerupManager } from "../../manager/body-manager/powerup/powerup-manag
 import { CustomBody, createCustomBody } from "../custom-body";
 import { SpriteRender } from '../../../../../types/render_types';
 import { Entity } from "../entity/entity";
+import { PowerupEffect, PowerupEffectBase, createPowerupEffect } from './effect/powerup-effect';
 
 export interface Powerup extends CustomBody {
     bodyType: 'powerup'
@@ -10,27 +11,19 @@ export interface Powerup extends CustomBody {
     effect: PowerupEffect
 }
 
-export interface PowerupEffect {
-    hitbox: Vector[][]
-    sprite: SpriteRender
-    spawnRate: number
-    duration: number
-    applyEffect: (entity: Entity) => void
-    removeEffect: (entity: Entity) => void
-}
-
 export function isPowerup(body: CustomBody): body is Powerup {
     return body.bodyType == 'powerup'
 }
 
 export interface PowerupOptions {
-    manager: PowerupManager
-    effect: PowerupEffect
+    effectBase: PowerupEffectBase
 }
 
-export function createPowerup(x: number, y: number, options: PowerupOptions): Powerup {
+export function createPowerup(x: number, y: number, manager: PowerupManager, options: PowerupOptions): Powerup {
 
-    const { manager, effect } = options;
+    const { effectBase } = options;
+
+    const effect = createPowerupEffect(effectBase)
 
     const body = Bodies.fromVertices(x, y, effect.hitbox, {
         torque: 0,

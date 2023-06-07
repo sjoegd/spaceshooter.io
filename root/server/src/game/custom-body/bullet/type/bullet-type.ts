@@ -12,6 +12,7 @@ export interface BulletType {
     damage: number
     baseSpeed: number
     minSpeed: number
+    frictionAir: number
 }
 
 const baseToBulletType = {

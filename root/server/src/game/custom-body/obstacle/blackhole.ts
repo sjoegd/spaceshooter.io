@@ -8,6 +8,8 @@ export interface Blackhole extends Obstacle {
     obstacleType: 'blackhole'
     manager: BlackholeManager
 
+    size: number
+
     baseForceRadius: number,
     baseForceStrength: number;
     forceRadius: number
@@ -23,7 +25,6 @@ export function isBlackhole(body: CustomBody): body is Blackhole {
 }
 
 export interface BlackholeOptions {
-    manager: BlackholeManager
     size: number,
     baseSpin: number
     forceRadius: number
@@ -31,9 +32,9 @@ export interface BlackholeOptions {
     lifeTime: number
 }
 
-export function createBlackhole(x: number, y: number, options: BlackholeOptions) {
+export function createBlackhole(x: number, y: number, manager: BlackholeManager, options: BlackholeOptions) {
 
-    const { manager, size, baseSpin, forceRadius, forceStrength, lifeTime } = options;
+    const { size, baseSpin, forceRadius, forceStrength, lifeTime } = options;
 
     const scale = 1/4
     const baseSize = scale * 50
@@ -57,12 +58,14 @@ export function createBlackhole(x: number, y: number, options: BlackholeOptions)
     const customBody = createCustomBody(body, 'obstacle', manager)
     const blackhole = <Blackhole> createObstacle(customBody, {
         obstacleType: 'blackhole',
+        baseSize,
         baseSpin,
         baseVelocity: {x: 0, y: 0},
         speedIncrease: 0,
         spinIncrease: 0.01
     })
-
+    
+    blackhole.size = size;
     blackhole.baseForceRadius = 1/scale;
     blackhole.baseForceStrength = 1;
     blackhole.forceRadius = forceRadius;

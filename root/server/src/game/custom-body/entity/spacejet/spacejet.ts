@@ -3,6 +3,7 @@ import { Entity, EntityState, createEntity, isEntity } from "../entity";
 import { SpacejetManager } from "../../../manager/body-manager/entity/spacejet-manager";
 import { SpacejetProperties, SpacejetPropertiesBase, createSpacejetProperties } from "./properties/spacejet-properties";
 import { Bodies } from "matter-js";
+import { Spaceshooter } from '../../../controller/spaceshooter/spaceshooter';
 
 export interface Spacejet extends Entity {
     manager: SpacejetManager
@@ -14,7 +15,7 @@ export interface Spacejet extends Entity {
     ammo: number;
     enemyKills: number;
 
-    controller?: {}
+    controller?: Spaceshooter
 }
 
 export class SpacejetState implements EntityState {
@@ -40,14 +41,13 @@ export function isSpacejet(body: CustomBody): body is Spacejet {
 }
 
 export interface SpacejetOptions {
-    manager: SpacejetManager
     spacejetPropertiesBase: SpacejetPropertiesBase
-    controller?: {}
+    controller?: Spaceshooter
 }
 
-export function createSpacejet(x: number, y: number, options: SpacejetOptions) {
+export function createSpacejet(x: number, y: number, manager: SpacejetManager, options: SpacejetOptions) {
 
-    const { manager, spacejetPropertiesBase, controller } = options;
+    const { spacejetPropertiesBase, controller } = options;
 
     const properties = createSpacejetProperties(spacejetPropertiesBase)
 

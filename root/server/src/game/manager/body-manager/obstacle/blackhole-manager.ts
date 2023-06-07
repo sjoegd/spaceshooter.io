@@ -2,6 +2,9 @@ import { CustomBody } from "../../../custom-body/custom-body";
 import { Blackhole, isBlackhole } from "../../../custom-body/obstacle/blackhole";
 import { BodyManager, CustomBodyManager } from "../body-manager";
 import { ObstacleManager } from "./obstacle-manager";
+import { Vector, Body } from 'matter-js';
+import { isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { isEntity } from '../../../custom-body/entity/entity';
 
 export class BlackholeManager extends ObstacleManager implements CustomBodyManager<Blackhole> {
 
@@ -17,6 +20,60 @@ export class BlackholeManager extends ObstacleManager implements CustomBodyManag
 
     manageBlackhole(blackhole: Blackhole) {
 
+        const exceeded = this.manageLifeTimeExcedence(blackhole)
+        if(exceeded) return;
+
+        this.managePullForce(blackhole)
+    }
+
+    // update name
+    manageLifeTimeExcedence(blackhole: Blackhole): boolean {
+        const lifeTimeExceeded = blackhole.birth + blackhole.lifeTime < this.bodyManager.gameManager.getCurrentTick()
+        if(lifeTimeExceeded) {
+            this.bodyManager.removeCustomBody(blackhole)
+        }
+
+        return lifeTimeExceeded
+    }
+
+    managePullForce(blackhole: Blackhole) {
+        const size = blackhole.baseSize * blackhole.size
+        const forceRadius = size * blackhole.baseForceRadius * blackhole.forceRadius
+
+        for(const body of this.bodyManager.customBodies) {
+            const distanceVector = Vector.sub(blackhole.position, body.position)
+            const distance = Math.sqrt(Vector.magnitudeSquared(distanceVector))
+
+            if(distance > forceRadius) continue;
+
+            // possibly some special case for bullets
+            const bodyMass = body.mass
+
+            const forceMagnitude = (blackhole.forceStrength *  blackhole.baseForceStrength) * (blackhole.mass / bodyMass)
+            const force = Vector.mult(distanceVector, forceMagnitude)
+
+            Body.applyForce(body, body.position, force)
+        }
+    }
+
+    onCollision(source: CustomBody, target: CustomBody) {
+        super.onCollision(source, target)
+        if(!this.isBodyType(source)) return;
+
+        if(isAsteroid(target)) {
+            // deal infinity damage
+
+            return;
+        }
+
+        if(isEntity(target)) {
+            // deal hp+shield damage
+
+            return;
+        }
+
+        // else just remove
+        this.bodyManager.removeCustomBody(target)
     }
 
     isBodyType(body: CustomBody): body is Blackhole {

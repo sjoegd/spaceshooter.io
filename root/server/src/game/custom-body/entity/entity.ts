@@ -1,5 +1,6 @@
 import { EntityManager } from "../../manager/body-manager/entity/entity-manager";
 import { CustomBody } from "../custom-body";
+import { Controller } from '../../controller/controller';
 
 export interface Entity extends CustomBody {
     bodyType: 'entity'
@@ -11,7 +12,7 @@ export interface Entity extends CustomBody {
 
     hp: number
     shield: number
-    controller?: {}
+    controller?: Controller
 }
 
 export interface EntityProperties {
@@ -37,7 +38,7 @@ export interface EntityOptions {
     entityType: string
     entityProperties: EntityProperties
     entityState: EntityState
-    controller?: {}
+    controller?: Controller
 }
 
 export function isEntity(body: CustomBody): body is Entity {

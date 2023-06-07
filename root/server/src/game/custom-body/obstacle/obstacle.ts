@@ -7,6 +7,8 @@ export interface Obstacle extends CustomBody {
     obstacleType: string
     manager: ObstacleManager
 
+    baseSize: number
+    baseVelocity: Vector
     baseSpeed: number
     baseSpin: number
     speedIncrease: number
@@ -19,6 +21,7 @@ export function isObstacle(body: CustomBody): body is Obstacle {
 
 export interface ObstacleOptions {
     obstacleType: string
+    baseSize: number
     baseVelocity: Vector
     baseSpin: number
     speedIncrease: number
@@ -27,10 +30,12 @@ export interface ObstacleOptions {
 
 export function createObstacle(body: CustomBody, options: ObstacleOptions) {
 
-    const { obstacleType, baseVelocity, baseSpin, speedIncrease, spinIncrease } = options
+    const { obstacleType, baseSize, baseVelocity, baseSpin, speedIncrease, spinIncrease } = options
 
     const obstacle = <Obstacle> body;
     obstacle.obstacleType = obstacleType;
+    obstacle.baseSize = baseSize;
+    obstacle.baseVelocity = baseVelocity;
     obstacle.baseSpeed = Vector.magnitude(baseVelocity)
     obstacle.baseSpin = baseSpin;
     obstacle.speedIncrease = speedIncrease;

@@ -21,4 +21,5 @@ export class StandardBulletType implements BulletType {
     damage: number = 10;
     baseSpeed: number = 35;
     minSpeed: number = 15;
+    frictionAir: number = 0.05;
 }
