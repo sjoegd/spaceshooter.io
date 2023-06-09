@@ -1,5 +1,4 @@
-import { GhostAgent } from "../agent/ghost_agent/ghost-agent";
-import { LearningAgent } from "../agent/learning_agent/learning-agent";
+import { Agent } from "../agent/agent";
 import { AgentManager } from "../manager/agent-manager";
 import { IDQNAgentJSON } from '@brain/rl';
 
@@ -11,13 +10,9 @@ export class AgentFactory {
         this.agentManager = agentManager;
     }
 
-    createGhostAgent(botAmount: number, IDQNAgentJSON: IDQNAgentJSON) {
-        const agent = new GhostAgent(this.agentManager, botAmount, IDQNAgentJSON)
-        return agent;
-    }
-
-    createLearningAgent(botAmount: number) {
-        const agent = new LearningAgent(this.agentManager, botAmount, this.agentManager.createRandomIDQNAgentJSON())
+    createAgent(model: IDQNAgentJSON, learn: boolean) {
+        const agent = new Agent(this.agentManager, model, learn)
+        this.agentManager.addAgent(agent)
         return agent;
     }
 
