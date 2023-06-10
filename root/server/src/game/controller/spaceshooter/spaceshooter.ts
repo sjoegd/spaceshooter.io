@@ -33,6 +33,7 @@ export abstract class Spaceshooter implements Controller {
     abstract handleInput(): void
     abstract handleTickReward(): void
     abstract onEntityDeath(): void
+    abstract onEntityAmmoChange(): void
     
     onEntityEnemyKill(): void {
         const reward = this.customManager.getReward('enemyKill')

@@ -28,9 +28,9 @@ export class AlienSpacejetProperties implements SpacejetProperties {
     maxSpeed: number = 10;
     speedIncrease: number = 0.25;
     angleIncrease: number = Math.PI/48;
-    dampingForce: number = 0.005;
+    dampingForce: number = 0.0025;
 
-    boostMultiply: number = 2
+    boostMultiply: number = 1.5
     boostDuration: number = 0.5 * BASE_TICK_RATE
     boostCooldown: number = 2.5 * BASE_TICK_RATE
 

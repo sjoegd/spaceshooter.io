@@ -74,4 +74,13 @@ export class Player extends Spaceshooter {
         this.socket.emit('death')
         this.socket.manager.removeSocketsPlayer(this.socket)
     }
+
+    onEntityDamageTaken(damage: number): void {
+        super.onEntityDamageTaken(damage)
+        this.onPlayerStateUpdate({health: this.entity.hp})
+    }
+
+    onEntityAmmoChange(): void {
+        this.onPlayerStateUpdate({ammo: this.entity.ammo})
+    }
 }

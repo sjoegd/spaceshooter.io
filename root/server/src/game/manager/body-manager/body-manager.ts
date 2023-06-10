@@ -9,6 +9,7 @@ import { BlackholeManager } from './obstacle/blackhole-manager';
 import { SpacejetManager } from './entity/spacejet-manager';
 import { BodyFactory } from '../../factory/body-factory';
 import { Body, Vector, World } from 'matter-js';
+import { BodySpawner } from '../../spawner/body-spawner';
 
 export class BodyManager {
 
@@ -20,6 +21,7 @@ export class BodyManager {
     obstacleManagers: ObstacleManagers
 
     factory: BodyFactory
+    spawner: BodySpawner
 
     customBodies: CustomBody[] = []
     
@@ -37,9 +39,11 @@ export class BodyManager {
         }
 
         this.factory = new BodyFactory(this)
+        this.spawner = new BodySpawner(this)
     }
 
     manageBodies() {
+        this.spawner.manageSpawning()
         for(const body of this.customBodies) {
             body.manage()
         }
@@ -52,6 +56,7 @@ export class BodyManager {
 
     removeCustomBody(body: CustomBody) {
         this.customBodies = this.customBodies.filter(b => b.id !== body.id)
+        this.spawner.onSpawnRemoval(body)
         World.remove(this.gameManager.physicsWorld, body)
     }
 

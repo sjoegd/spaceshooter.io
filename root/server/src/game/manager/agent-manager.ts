@@ -1,9 +1,9 @@
 import { GameManager } from './game-manager';
 import { AgentFactory } from '../factory/agent-factory';
 import { Agent } from '../agent/agent';
-import { IDQNAgentJSON, DQNAgent } from '@brain/rl';
 import { Bot } from '../controller/spaceshooter/bot';
 import { readFileSync } from 'fs';
+
 
 export class AgentManager {
 
@@ -18,7 +18,9 @@ export class AgentManager {
     }
 
     manageAgents() {
-
+        for(const agent of this.agents) {
+            agent.manage()
+        }
     }
 
     addAgent(agent: Agent) {

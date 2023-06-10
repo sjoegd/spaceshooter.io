@@ -4,7 +4,7 @@ import { isCustomBody, CustomBody } from '../custom-body/custom-body';
 import { CustomBodyManager } from './body-manager/body-manager';
 
 export class CollisionManager {
-
+    
     gameManager: GameManager
 
     collisionListeners: CustomBodyManager<CustomBody>[] = []

@@ -7,8 +7,6 @@ import { SocketManager } from './socket-manager';
 import { ControllerManager } from './controller-manager/controller-manager';
 import { AgentManager } from './agent-manager';
 import { BodyRender } from "../../../../types/render_types";
-import { CustomBody } from "../custom-body/custom-body";
-
 
 export class GameManager {
 
@@ -46,7 +44,7 @@ export class GameManager {
 
     manageGameAfterUpdate() {
         this.controllerManager.manageControllersAfterUpdate()
-        this.socketManager.onGameStateUpdate(this.physicsWorld.bodies.sort(this.bodyManager.sortBody).map(b => this.getBodyRender(b)))
+        if(this.socketManager.shouldSendGameStateUpdate()) { this.socketManager.onGameStateUpdate(this.physicsWorld.bodies.sort(this.bodyManager.sortBody).map(b => this.getBodyRender(b))) }
     }
 
     setupWorld() {

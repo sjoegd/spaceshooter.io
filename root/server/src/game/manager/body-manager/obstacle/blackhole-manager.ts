@@ -5,6 +5,7 @@ import { ObstacleManager } from "./obstacle-manager";
 import { Vector, Body } from 'matter-js';
 import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
+import { isBullet } from "../../../custom-body/bullet/bullet";
 
 export class BlackholeManager extends ObstacleManager implements CustomBodyManager<Blackhole> {
 
@@ -36,17 +37,18 @@ export class BlackholeManager extends ObstacleManager implements CustomBodyManag
     }
 
     managePullForce(blackhole: Blackhole) {
-        const size = blackhole.baseSize * blackhole.size
-        const forceRadius = size * blackhole.baseForceRadius * blackhole.forceRadius
+        const forceRadius = blackhole.baseForceRadius * blackhole.forceRadius 
 
         for(const body of this.bodyManager.customBodies) {
+            if(body.id == blackhole.id) continue;
+
             const distanceVector = Vector.sub(blackhole.position, body.position)
-            const distance = Math.sqrt(Vector.magnitudeSquared(distanceVector))
-
+            const distance = Vector.magnitude(distanceVector)
+            
             if(distance > forceRadius) continue;
-
+            
             // possibly some special case for bullets
-            const bodyMass = body.mass
+            const bodyMass = isBullet(body) ? body.mass * 0.5e2 : body.mass
 
             const forceMagnitude = (blackhole.forceStrength *  blackhole.baseForceStrength) * (blackhole.mass / bodyMass)
             const force = Vector.mult(distanceVector, forceMagnitude)

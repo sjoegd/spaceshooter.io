@@ -53,4 +53,6 @@ export class Bot extends Spaceshooter {
         this.isDeath = true;
     }
 
+    onEntityAmmoChange(): void {}
+
 }

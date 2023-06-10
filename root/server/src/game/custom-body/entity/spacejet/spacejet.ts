@@ -54,7 +54,7 @@ export function createSpacejet(x: number, y: number, manager: SpacejetManager, o
     const body = Bodies.fromVertices(x, y, properties.hitbox, {
         torque: 0,
         inertia: Infinity,
-        density: 0.01,
+        density: 0.005,
         render: {
             sprite: properties.sprite
         }

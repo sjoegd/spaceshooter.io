@@ -66,8 +66,8 @@ export function createBlackhole(x: number, y: number, manager: BlackholeManager,
     })
     
     blackhole.size = size;
-    blackhole.baseForceRadius = 1/scale;
-    blackhole.baseForceStrength = 1;
+    blackhole.baseForceRadius = (blackhole.circleRadius ?? 0) * (1/scale) * 2;
+    blackhole.baseForceStrength = 5e-5;
     blackhole.forceRadius = forceRadius;
     blackhole.forceStrength = forceStrength;
     blackhole.birth = manager.bodyManager.gameManager.getCurrentTick()

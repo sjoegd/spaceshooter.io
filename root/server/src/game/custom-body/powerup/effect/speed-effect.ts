@@ -30,11 +30,13 @@ export class SpeedEffect implements PowerupEffect {
         const properties = entity.entityProperties
         properties.speedIncrease *= this.speedMultiplier
         properties.maxSpeed *= this.speedMultiplier
+        properties.dampingForce *= this.speedMultiplier
     }
 
     removeEffect(entity: Entity) {
         const properties = entity.entityProperties
         properties.speedIncrease /= this.speedMultiplier
         properties.maxSpeed /= this.speedMultiplier
+        properties.dampingForce /= this.speedMultiplier
     }
 }

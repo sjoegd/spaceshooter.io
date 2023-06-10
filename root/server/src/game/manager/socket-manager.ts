@@ -55,6 +55,10 @@ export class SocketManager {
         socket.player = undefined;
     }
 
+    shouldSendGameStateUpdate() {
+        return this.sockets.length > 0;
+    }
+
     onGameStateUpdate(bodyRenders: BodyRender[]) {
         for(const socket of this.sockets) {
             const render: GameStateRender = {

@@ -40,6 +40,7 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
 
             properties.speedIncrease *= boostMultiply
             properties.maxSpeed *= boostMultiply
+            properties.dampingForce *= boostMultiply
 
             if(!spacejet.render.sprite) break startBoost;
             spacejet.render.sprite.texture = boostTexture
@@ -54,6 +55,7 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
 
             properties.speedIncrease /= boostMultiply
             properties.maxSpeed /= boostMultiply
+            properties.dampingForce /= boostMultiply
 
             if(!spacejet.render.sprite) break endBoost;
             spacejet.render.sprite.texture = baseTexture
@@ -89,13 +91,15 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
 
         state.lastTimeShot = this.bodyManager.gameManager.getCurrentTick()
         spacejet.ammo--;
+        spacejet.controller!.onEntityAmmoChange()
 
         if(spacejet.ammo <= 0) {
             state.isReloading = true;
             setTimeout(() => {
                 state.isReloading = false;
                 spacejet.ammo = maxAmmo;
-            }, reloadDuration)
+                spacejet.controller!.onEntityAmmoChange()
+            }, (1000/BASE_TICK_RATE) * reloadDuration)
         }
     }
 

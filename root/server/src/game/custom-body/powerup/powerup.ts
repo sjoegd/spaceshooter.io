@@ -26,6 +26,7 @@ export function createPowerup(x: number, y: number, manager: PowerupManager, opt
     const effect = createPowerupEffect(effectBase)
 
     const body = Bodies.fromVertices(x, y, effect.hitbox, {
+        isSensor: true,
         torque: 0,
         inertia: Infinity,
         density: 0.01,
@@ -34,7 +35,7 @@ export function createPowerup(x: number, y: number, manager: PowerupManager, opt
         }
     })
 
-    const powerup = <Powerup> createCustomBody(body, 'powerup', manager)
+    const powerup = <Powerup> createCustomBody(body, 'powerup', manager, 1)
     powerup.effect = effect;
 
     return powerup

@@ -32,12 +32,10 @@ export class BulletManager implements CustomBodyManager<Bullet> {
 
         if(isAsteroid(target)) {
             this.onAsteroidCollision(source, target)
-            return;
         }
 
         if(isEntity(target)) {
             this.onEntityCollision(source, target)
-            return;
         }
 
         this.bodyManager.removeCustomBody(source)

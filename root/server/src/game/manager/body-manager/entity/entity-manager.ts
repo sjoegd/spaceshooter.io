@@ -61,6 +61,7 @@ export class EntityManager implements CustomBodyManager<Entity> {
         if(right && !left) {
             Body.setAngle(entity, angle + angleIncrease)
         }
+
     }
 
     onCollision(source: CustomBody, target: CustomBody) {

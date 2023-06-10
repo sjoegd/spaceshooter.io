@@ -1,4 +1,6 @@
-import { DQNAgent, IDQNAgentJSON } from "@brain/rl";
+// import { DQNAgent, IDQNAgentJSON } from "@brain/rl";
+// @ts-nocheck
+import { DQNAgent, IDQNAgentJSON } from "../../../node_modules/@brain/rl/dist/rl.js"
 import { Bot } from "../controller/spaceshooter/bot";
 import { AgentManager } from "../manager/agent-manager";
 
@@ -14,6 +16,10 @@ export class Agent {
         this.manager = manager;
         this.DQN = new DQNAgent(model);
         this.learn = learn;
+    }
+
+    manage() {
+        this.manageBots()
     }
 
     manageBots() {
@@ -32,8 +38,8 @@ export class Agent {
     }
 
     removeBot(bot: Bot) {
-        bot.manager.removeController(bot)
         this.bots = this.bots.filter(b => b.id !== bot.id)
+        bot.manager.removeController(bot)
     }
 
     getBotCount() {

@@ -5,6 +5,7 @@ import { PowerupEffectBase } from '../../../custom-body/powerup/effect/powerup-e
 import inBetween from '../../../../util/in-between';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
 import { BASE_TICK_RATE } from '../../../server-game-engine';
+import { isBullet } from "../../../custom-body/bullet/bullet";
 
 export class PowerupManager implements CustomBodyManager<Powerup> {
     
@@ -36,11 +37,17 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
             this.onEntityCollision(source, target)
             return;
         }
+
+        if(isBullet(target)) {
+            this.onEntityCollision(source, target.owner)
+            return;
+        }
     }
 
     onEntityCollision(source: Powerup, target: Entity) {
-        target.controller!.onEntityPowerupTaken()
+        this.bodyManager.removeCustomBody(source)
         this.applyPowerup(source, target)
+        target.controller!.onEntityPowerupTaken()
     }
 
     applyPowerup(powerup: Powerup, entity: Entity) {
