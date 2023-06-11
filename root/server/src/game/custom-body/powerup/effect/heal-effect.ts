@@ -36,5 +36,5 @@ export class HealEffect implements PowerupEffect {
         entity.hp = newHP
     };
 
-    removeEffect(entity: Entity) {};  
+    removeEffect(_entity: Entity) {};  
 }

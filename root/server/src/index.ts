@@ -45,7 +45,7 @@ const io = new Server(httpServer, {
 })
 
 // host multiple lobbies for multiple different worlds
-const lobby = new ServerGameEngine(60)
+const lobby = new ServerGameEngine(1)
 
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)

@@ -1,9 +1,15 @@
+import Matter, { Body, Collision, Query, Vector } from "matter-js";
 import { Agent } from "../../agent/agent";
 import { Spacejet } from "../../custom-body/entity/spacejet/spacejet";
 import { SpaceshooterManager } from "../../manager/controller-manager/spaceshooter/spaceshooter-manager";
 import { Spaceshooter } from "./spaceshooter";
+// @ts-ignore
+import Line from "matter-lines"
 
 export class Bot extends Spaceshooter {
+
+    static rayCount = 16;
+    static rayLength = 200;
 
     /**
     * TODO
@@ -15,7 +21,8 @@ export class Bot extends Spaceshooter {
     * 2 (boost | none) x
     * 2 (shoot | none) 
     */
-    static actionSpace: number = 24; 
+    static actionSpace: number = 36; 
+
 
     agent: Agent
     isDeath: boolean = false;
@@ -32,13 +39,72 @@ export class Bot extends Spaceshooter {
     }
 
     getState(): number[] {
+        const rayCount = Bot.stateSpace;
+        const rayLength = 200;
+        
+        const rayResults = this.rayCast(rayCount, rayLength)
+        return rayResults
+    }
+
+    rayCast(rayCount: number, rayLength: number): number[] {
+        const position = this.entity.position;
+        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id);
+        const rayResults: number[] = [];
+
         return [
-            //... of stateSpace
+            1, 1, 1, 1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1, 1, 1 ,1
         ]
     }
 
     handleAction(action: number) {
-        // handle 0 -> actionSpace - 1
+
+        const bitString = action.toString(2);
+        const bits = bitString.split("");
+
+        while (bits.length < 6) {
+            bits.unshift("0");
+        }
+
+        const boost = parseInt(bits[0], 2);
+        const shoot = parseInt(bits[1], 2);
+        const direction = parseInt(bits[2] + bits[3], 2);
+        const angle = parseInt(bits[4] + bits[5], 2);
+
+        this.handleBoostAction(boost)
+        this.handleShootAction(shoot)
+        this.handleDirectionAction(direction)
+        this.handleAngleAction(angle)
+    }
+    
+    handleBoostAction(action: number) {
+        switch (action) {
+            case 0: this.entity.entityState.boost = true; break;
+            case 1: this.entity.entityState.boost = false; break;
+        }
+    }
+
+    handleShootAction(action: number) {
+        switch (action) {
+            case 0: this.entity.entityState.shoot = true; break;
+            case 1: this.entity.entityState.shoot = false; break;
+        }
+    }
+
+    handleDirectionAction(action: number) {
+        switch (action) {
+            case 0: this.entity.entityState.forward = true; this.entity.entityState.backward = false; break;
+            case 1: this.entity.entityState.backward = true; this.entity.entityState.forward = false; break;
+            case 2: this.entity.entityState.forward = false; this.entity.entityState.backward = false; break;
+        }
+    }
+
+    handleAngleAction(action: number) {
+        switch (action) {
+            case 0: this.entity.entityState.right = true; this.entity.entityState.left = false; break;
+            case 1: this.entity.entityState.left = true; this.entity.entityState.right = false; break;
+            case 2: this.entity.entityState.right = false; this.entity.entityState.left = false; break;
+        }
     }
 
     handleTickReward(): void {

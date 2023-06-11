@@ -1,21 +1,30 @@
 // import { DQNAgent, IDQNAgentJSON } from "@brain/rl";
-// @ts-nocheck
+// @ts-ignore
 import { DQNAgent, IDQNAgentJSON } from "../../../node_modules/@brain/rl/dist/rl.js"
 import { Bot } from "../controller/spaceshooter/bot";
-import { AgentManager } from "../manager/agent-manager";
+import { AgentManager } from "../manager/agent-manager/agent-manager.js";
 
 export class Agent {
 
     manager: AgentManager;
 
     DQN: DQNAgent;
-    bots: Bot[] = [];
     learn: boolean;
+    bots: Bot[] = [];
+    botCount: number;
 
-    constructor(manager: AgentManager, model: IDQNAgentJSON, learn: boolean = false) {
+    constructor(manager: AgentManager, model: IDQNAgentJSON, learn: boolean = false, botCount: number = 1) {
         this.manager = manager;
         this.DQN = new DQNAgent(model);
         this.learn = learn;
+        this.botCount = botCount;
+        this.createBots(botCount);
+    }
+
+    createBots(count: number) {
+        for(let i = 0; i < count; i++) {
+            this.addBot()
+        }
     }
 
     manage() {
@@ -25,7 +34,8 @@ export class Agent {
     manageBots() {
         for(const bot of this.bots) {
             if(!bot.isDeath) continue;
-            this.removeBot(bot)
+            this.removeBot(bot);
+            this.addBot();
         }
     }
 
@@ -33,17 +43,18 @@ export class Agent {
         this.DQN = new DQNAgent(model)
     }
 
-    addBot(bot: Bot) {
+    getModel() {
+        return this.DQN.toJSON()
+    }
+
+    addBot() {
+        const bot = this.manager.createNewBot(this)
         this.bots.push(bot)
     }
 
     removeBot(bot: Bot) {
+        this.manager.removeBot(bot)
         this.bots = this.bots.filter(b => b.id !== bot.id)
-        bot.manager.removeController(bot)
-    }
-
-    getBotCount() {
-        return this.bots.length
     }
 
     getAction(state: number[]): number {

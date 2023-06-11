@@ -31,5 +31,5 @@ export class ShieldEffect implements PowerupEffect {
         entity.shield = Math.min(maxShield, entity.shield + this.shield)
     }
 
-    removeEffect(entity: Entity) {}
+    removeEffect(_entity: Entity) {}
 }

@@ -1,6 +1,10 @@
-import { Engine } from "matter-js";
+import Matter, { Engine } from "matter-js";
 import { Socket } from "socket.io";
 import { GameManager } from './manager/game-manager';
+
+// @ts-ignore
+import decomp from 'poly-decomp';
+Matter.Common.setDecomp(decomp)
 
 export const BASE_TICK_RATE: number = 60;
 

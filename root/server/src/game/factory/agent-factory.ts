@@ -1,5 +1,5 @@
 import { Agent } from "../agent/agent";
-import { AgentManager } from "../manager/agent-manager";
+import { AgentManager } from "../manager/agent-manager/agent-manager";
 import { IDQNAgentJSON } from '@brain/rl';
 
 export class AgentFactory {

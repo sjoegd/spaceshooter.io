@@ -5,7 +5,7 @@ import { BodyManager } from "./body-manager/body-manager";
 import { CollisionManager } from './collision-manager';
 import { SocketManager } from './socket-manager';
 import { ControllerManager } from './controller-manager/controller-manager';
-import { AgentManager } from './agent-manager';
+import { AgentManager } from './agent-manager/agent-manager';
 import { BodyRender } from "../../../../types/render_types";
 
 export class GameManager {
@@ -34,7 +34,7 @@ export class GameManager {
         this.collisionManager = new CollisionManager(this)
         this.controllerManager = new ControllerManager(this)
         this.socketManager = new SocketManager(this)
-        this.agentManager = new AgentManager(this)
+        this.agentManager = new AgentManager(this, 1, true)
     }
 
     manageGameBeforeUpdate() {
@@ -44,6 +44,7 @@ export class GameManager {
 
     manageGameAfterUpdate() {
         this.controllerManager.manageControllersAfterUpdate()
+        this.agentManager.manageAgents()
         if(this.socketManager.shouldSendGameStateUpdate()) { this.socketManager.onGameStateUpdate(this.physicsWorld.bodies.sort(this.bodyManager.sortBody).map(b => this.getBodyRender(b))) }
     }
 
