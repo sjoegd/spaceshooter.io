@@ -1,20 +1,33 @@
-import Matter, { Body, Collision, Query, Vector } from "matter-js";
+import { Body, Collision, Query, Vector } from "matter-js";
 import { Agent } from "../../agent/agent";
 import { Spacejet } from "../../custom-body/entity/spacejet/spacejet";
 import { SpaceshooterManager } from "../../manager/controller-manager/spaceshooter/spaceshooter-manager";
 import { Spaceshooter } from "./spaceshooter";
-// @ts-ignore
-import Line from "matter-lines"
+import { isCustomBody } from "../../custom-body/custom-body";
 
 export class Bot extends Spaceshooter {
 
     static rayCount = 16;
-    static rayLength = 200;
+    static rayLength = 300;
+
+    bodyTypeToNumber: {
+        [bodyType: string]: number | undefined
+    } = {
+        "wall": 0.2,
+        "powerup": 0.4,
+        "obstacle": 0.6,
+        "bullet": 0.8,
+        "entity": 1,
+    }
 
     /**
-    * TODO
+    * rayCount 
+    * health
+    * shield
+    * ammo
+    * isReloading
     */
-    static stateSpace: number = 16;
+    static stateSpace: number = Bot.rayCount + 4;
     /**
     * 3 (forward | backward | none) x
     * 3 (right | left | none) x
@@ -38,23 +51,46 @@ export class Bot extends Spaceshooter {
         this.handleAction(action)
     }
 
-    getState(): number[] {
-        const rayCount = Bot.stateSpace;
-        const rayLength = 200;
-        
-        const rayResults = this.rayCast(rayCount, rayLength)
-        return rayResults
+    getState(): number[] {        
+        const rayResults = this.rayCast(Bot.rayCount, Bot.rayLength);
+        const health = this.entity.hp / this.entity.entityProperties.maxHP;
+        const shield = this.entity.shield / this.entity.entityProperties.maxShield;
+        const ammo = this.entity.ammo / this.entity.entityProperties.maxAmmo;
+        const isReloading = this.entity.entityState.isReloading ? 1 : 0;
+
+        return [...rayResults, health, shield, ammo, isReloading]
     }
 
     rayCast(rayCount: number, rayLength: number): number[] {
         const position = this.entity.position;
-        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id);
+        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id && !b.isSensor);
         const rayResults: number[] = [];
 
-        return [
-            1, 1, 1, 1, 1, 1, 1, 1,
-            1, 1, 1, 1, 1, 1, 1 ,1
-        ]
+        for(let i = 0; i < rayCount; i++) {
+            const angle = (i / rayCount) * Math.PI * 2;
+            const rayVector = Vector.create(Math.cos(angle), Math.sin(angle)); 
+            const ray = Query.ray(bodies, position, Vector.add(position, Vector.mult(rayVector, rayLength)));
+            const rayCollision = this.parseRayCollision(ray[0])
+            rayResults.push(rayCollision)
+        }
+
+        return rayResults;
+    }
+
+    parseRayCollision(ray: Collision | undefined) {
+        if(!ray) return 0;
+
+        const body = ray.bodyB
+
+        if(isCustomBody(body)) {
+            return this.bodyTypeToNumber[body.bodyType] ?? 0
+        }
+
+        if(body.isStatic) {
+            return this.bodyTypeToNumber["wall"] ?? 0
+        }
+
+        return 0;
     }
 
     handleAction(action: number) {

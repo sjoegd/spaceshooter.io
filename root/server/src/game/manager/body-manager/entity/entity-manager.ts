@@ -88,6 +88,7 @@ export class EntityManager implements CustomBodyManager<Entity> {
         // deal crash damage
         const damage = this.bodyManager.calculateCrashDamage(source, target)
         target.manager.dealDamage(target, damage)
+        source.controller!.onEntityDamageDealth(damage);
     }
 
     dealDamage(target: Entity, damage: number) {

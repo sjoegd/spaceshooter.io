@@ -21,7 +21,7 @@ export class LearningManager {
   window: number;
 
   memory: IDQNAgentJSON[] = [];
-  savePath: string = "../../agent/model/model.json";
+  savePath: string = "../../../../model/model.json";
 
   constructor(
     agentManager: AgentManager,
@@ -49,6 +49,7 @@ export class LearningManager {
         this.memory[Math.round(Math.random() * this.memory.length - 1)] ??
         this.agentManager.createRandomModel();
       agent.updateModel(model);
+      console.log("Model updated")
     }
   }
 

@@ -20,12 +20,15 @@ export class AgentManager {
         this.factory = new AgentFactory(this);
         this.learningManager = new LearningManager(this);
         this.createAgents(amount, learn);
+
+        if(learn) {
+            console.log('Started learning')
+        }
     }
 
-    createAgents(amount: number, learn: boolean = false) {
+    createAgents(amount: number, learn: boolean) {
         for(let i = 0; i < amount; i++) {
-            const agent = this.factory.createAgent(this.createRandomModel(), i == 0 ? learn : false)
-            this.addAgent(agent)
+            this.factory.createAgent(this.createRandomModel(), i === 0 ? learn : false)
         }
     }
 

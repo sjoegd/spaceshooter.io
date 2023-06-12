@@ -1,10 +1,6 @@
-import Matter, { Engine } from "matter-js";
+import { Engine } from "matter-js";
 import { Socket } from "socket.io";
 import { GameManager } from './manager/game-manager';
-
-// @ts-ignore
-import decomp from 'poly-decomp';
-Matter.Common.setDecomp(decomp)
 
 export const BASE_TICK_RATE: number = 60;
 
@@ -18,14 +14,14 @@ export class ServerGameEngine {
 
     gameManager: GameManager;
 
-    constructor(tickRate: number = BASE_TICK_RATE) {
+    constructor(tickRate: number = BASE_TICK_RATE, train: boolean = false) {
         this.tickRate = tickRate;
 
         this.physicsEngine = Engine.create({
             gravity: {x: 0, y: 0}
         });
 
-        this.gameManager = new GameManager(this);
+        this.gameManager = new GameManager(this, train);
 
         this.gameLoop = this.createGameLoop()
     }

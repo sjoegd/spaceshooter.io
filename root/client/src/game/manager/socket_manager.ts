@@ -12,7 +12,7 @@ export class SocketManager {
     constructor(gameEngine: ClientGameEngine) {
         this.engine = gameEngine;
 
-        this.socket = io('http://localhost:3000', {
+        this.socket = io({ // localhost:3000 for development
             path: '/game-socket'
         })
 

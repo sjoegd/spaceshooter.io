@@ -8,20 +8,21 @@ type rewardAction =
     'tickSurvived' |
     'powerupTaken' |
     'damageTaken' |
+    'damageDealt' |
     'death'
 
 export class SpaceshooterManager implements CustomControllerManager<Spaceshooter> {
     
     controllerManager: ControllerManager;
 
-    // TODO
     rewards = {
-        'enemyKill': 0,
-        'asteroidDestroyed': 0,
-        'tickSurvived': 0,
-        'powerupTaken': 0,
-        'damageTaken': 0,
-        'death': 0
+        'enemyKill': 500,
+        'asteroidDestroyed': 0, // 0 till asteroids give something
+        'tickSurvived': 0.1,
+        'powerupTaken': 50,
+        'damageTaken': -1,
+        'damageDealt': 1,
+        'death': -500
     }
     
     constructor(controllerManager: ControllerManager) {

@@ -10,6 +10,7 @@ export interface Controller {
 
     onEntityDeath: () => void
     onEntityDamageTaken: (damage: number) => void
+    onEntityDamageDealth: (damage: number) => void
     onEntityPowerupTaken: () => void
 
     onBeforeUpdate: () => void

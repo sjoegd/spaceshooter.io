@@ -1,22 +1,18 @@
 import {default as express} from "express";
+import minimist from "minimist";
 import { Server } from "socket.io"
 import { ServerGameEngine } from "./game/server-game-engine";
 
+// parse arguments
+const argv = minimist(process.argv.slice(2), {
+  string: ["train"],
+});
+
+const train = argv.train !== undefined;
+
+// start application
 const app = express()
 const port = 3000
-
-/**
- * TODO:
- * use the 'minimist' package to read input 
- * 
- * create flag: -train
- *  present -> ServerGameEngine will train agent(s)
- *  not present -> ServerGameEngine will act normally
- * 
- * Find a way to run as production / dev
- * package: cross-env
- * and then NODE_ENV=PRODUCTION / NODE_ENV=DEVELOPMENT
- */
 
 // Temporary cors middleware (for development)
 app.use((req, res, next) => {
@@ -34,8 +30,8 @@ app.use((req, res, next) => {
 app.use(express.static("../client/dist"))
 
 const httpServer = app.listen(3000, () => {
-    console.log(`Starting listening at http://localhost:${port}/`)
-})
+  console.log(`Starting listening at http://localhost:${port}/`);
+});
 
 const io = new Server(httpServer, {
     path: '/game-socket',
@@ -45,7 +41,7 @@ const io = new Server(httpServer, {
 })
 
 // host multiple lobbies for multiple different worlds
-const lobby = new ServerGameEngine(1)
+const lobby = new ServerGameEngine(train ? 1000 : 60, train)
 
 io.on('connection', (socket) => {
     console.log(`Socket connected: ${socket.id}`)

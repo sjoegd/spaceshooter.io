@@ -99,7 +99,7 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
                 state.isReloading = false;
                 spacejet.ammo = maxAmmo;
                 spacejet.controller!.onEntityAmmoChange()
-            }, (1000/BASE_TICK_RATE) * reloadDuration)
+            }, (1000/this.bodyManager.gameManager.gameEngine.tickRate) * reloadDuration)
         }
     }
 

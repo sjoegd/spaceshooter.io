@@ -23,7 +23,7 @@ export class GameManager {
     socketManager: SocketManager
     agentManager: AgentManager
 
-    constructor(gameEngine: ServerGameEngine) {
+    constructor(gameEngine: ServerGameEngine, train: boolean) {
         this.gameEngine = gameEngine;
         this.physicsEngine = gameEngine.physicsEngine;
         this.physicsWorld = this.physicsEngine.world;
@@ -34,7 +34,7 @@ export class GameManager {
         this.collisionManager = new CollisionManager(this)
         this.controllerManager = new ControllerManager(this)
         this.socketManager = new SocketManager(this)
-        this.agentManager = new AgentManager(this, 1, true)
+        this.agentManager = new AgentManager(this, 10, train)
     }
 
     manageGameBeforeUpdate() {

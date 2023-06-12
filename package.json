@@ -8,7 +8,15 @@
     "buildServer": "cd ./root/server && npm i && npm run build && cd ../..",
     "start": "cd ./root/server && npm run start"
   },
-  "keywords": ["io game", "io", "game", "multiplayer", "spaceshooter", "canvas", "socket.io"],
+  "keywords": [
+    "io game",
+    "io",
+    "game",
+    "multiplayer",
+    "spaceshooter",
+    "canvas",
+    "socket.io"
+  ],
   "author": "Sjoegd",
   "license": "ISC"
 }
