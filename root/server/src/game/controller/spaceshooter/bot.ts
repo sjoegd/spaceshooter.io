@@ -10,7 +10,7 @@ import { isEntity } from "../../custom-body/entity/entity";
 export class Bot extends Spaceshooter {
 
     static rayCount = 16;
-    static rayLength = 500;
+    static rayLength = 300;
 
     /**
     * rayCount 
