@@ -70,7 +70,7 @@ const io = new Server(server, {
 })
 
 // Setup a game lobby
-const lobby = new ServerGameEngine(train ? 30 : 60, train)
+const lobby = new ServerGameEngine(train ? 1000 : 60, train)
 
 // Setup socket connections to lobby
 io.on('connection', (socket) => {
