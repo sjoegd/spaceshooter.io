@@ -131,6 +131,7 @@ export class SpacejetManager extends EntityManager implements CustomBodyManager<
         // deal crash damage
         const damage = this.bodyManager.calculateCrashDamage(source, target)
         const killed = target.manager.dealDamage(target, damage)
+        source.controller!.onEntityDamageDealt(damage)
 
         if(killed && isSpacejet(target)) {
             source.enemyKills++;

@@ -55,7 +55,7 @@ export class PowerupManager implements CustomBodyManager<Powerup> {
         effect.applyEffect(entity)
         setTimeout(() => {
             effect.removeEffect(entity)
-        }, (1000/BASE_TICK_RATE) * effect.duration)
+        }, (1000/this.bodyManager.gameManager.gameEngine.tickRate) * effect.duration)
     }
 
     getRandomEffect() {

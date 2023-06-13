@@ -61,7 +61,6 @@ export class BodyManager {
     }
 
     sortBody(a: Body, b: Body) {
-        // order based on z_index, (statics get -1)
         const a_c = <CustomBody> a;
         const b_c = <CustomBody> b;
         a_c.z_index = a_c.z_index ?? -1;
@@ -69,7 +68,6 @@ export class BodyManager {
         return a_c.z_index - b_c.z_index
     }
 
-    // TODO: Tweak?
     calculateCrashDamage(source: CustomBody, target: CustomBody) {
         const velocityDifference = Vector.sub(target.velocity, source.velocity)
         const speedDifference = Vector.magnitude(velocityDifference)

@@ -28,21 +28,21 @@ export class BodySpawner {
             create: (x, y) => this.createRandomAsteroid(x, y),
             isBodyType: isAsteroid,
             spawnRate: 1,
-            spawnAmount: 20,
+            spawnAmount: 30,
             amount: 0
         },
         blackhole: {
             create: (x, y) => this.createRandomBlackhole(x, y),
             isBodyType: isBlackhole,
             spawnRate: 0.1,
-            spawnAmount: 3,
+            spawnAmount: 5,
             amount: 0
         },
         powerup: {
             create: (x, y) => this.createRandomPowerup(x, y),
             isBodyType: isPowerup,
             spawnRate: 0.2,
-            spawnAmount: 5,
+            spawnAmount: 10,
             amount: 0
         }
     }

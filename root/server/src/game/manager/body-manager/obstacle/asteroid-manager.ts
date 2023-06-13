@@ -18,7 +18,6 @@ export class AsteroidManager extends ObstacleManager implements CustomBodyManage
 
     manageAsteroid(_asteroid: Asteroid) {
         // ...
-        // regen hp?
     }
 
     onCollision(source: CustomBody, target: CustomBody) {

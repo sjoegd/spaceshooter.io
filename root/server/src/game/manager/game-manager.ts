@@ -10,7 +10,7 @@ import { BodyRender } from "../../../../types/render_types";
 
 export class GameManager {
 
-    WORLD_SIZE = 3000;
+    WORLD_SIZE = 4000;
     BORDER_SIZE = 200;
 
     gameEngine: ServerGameEngine
@@ -34,7 +34,7 @@ export class GameManager {
         this.collisionManager = new CollisionManager(this)
         this.controllerManager = new ControllerManager(this)
         this.socketManager = new SocketManager(this)
-        this.agentManager = new AgentManager(this, 10, train)
+        this.agentManager = new AgentManager(this, 1, train)
     }
 
     manageGameBeforeUpdate() {
@@ -45,7 +45,13 @@ export class GameManager {
     manageGameAfterUpdate() {
         this.controllerManager.manageControllersAfterUpdate()
         this.agentManager.manageAgents()
-        if(this.socketManager.shouldSendGameStateUpdate()) { this.socketManager.onGameStateUpdate(this.physicsWorld.bodies.sort(this.bodyManager.sortBody).map(b => this.getBodyRender(b))) }
+        if(this.socketManager.shouldSendGameStateUpdate()) { 
+            this.socketManager.onGameStateUpdate(
+                this.physicsWorld.bodies
+                    .sort(this.bodyManager.sortBody)
+                    .map(b => this.getBodyRender(b))
+            ) 
+        }
     }
 
     setupWorld() {

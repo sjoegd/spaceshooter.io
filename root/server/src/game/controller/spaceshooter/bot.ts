@@ -1,24 +1,16 @@
-import { Body, Collision, Query, Vector } from "matter-js";
+import { Collision, Query, Vector } from "matter-js";
 import { Agent } from "../../agent/agent";
 import { Spacejet } from "../../custom-body/entity/spacejet/spacejet";
 import { SpaceshooterManager } from "../../manager/controller-manager/spaceshooter/spaceshooter-manager";
 import { Spaceshooter } from "./spaceshooter";
 import { isCustomBody } from "../../custom-body/custom-body";
+import { isObstacle } from "../../custom-body/obstacle/obstacle";
+import { isEntity } from "../../custom-body/entity/entity";
 
 export class Bot extends Spaceshooter {
 
     static rayCount = 16;
-    static rayLength = 300;
-
-    bodyTypeToNumber: {
-        [bodyType: string]: number | undefined
-    } = {
-        "wall": 0.2,
-        "powerup": 0.4,
-        "obstacle": 0.6,
-        "bullet": 0.8,
-        "entity": 1,
-    }
+    static rayLength = 500;
 
     /**
     * rayCount 
@@ -26,16 +18,24 @@ export class Bot extends Spaceshooter {
     * shield
     * ammo
     * isReloading
+    * speed / maxSpeed
+    * angle / 360
     */
-    static stateSpace: number = Bot.rayCount + 4;
-    /**
-    * 3 (forward | backward | none) x
-    * 3 (right | left | none) x
-    * 2 (boost | none) x
-    * 2 (shoot | none) 
-    */
-    static actionSpace: number = 36; 
+    static stateSpace: number = Bot.rayCount + 6;
 
+    /**
+     * forward
+     * backward
+     * stop
+     * left
+     * right
+     * stop turn
+     * shoot
+     * stop shoot
+     * boost
+     * stop boost
+     */
+    static actionSpace: number = 10; 
 
     agent: Agent
     isDeath: boolean = false;
@@ -52,18 +52,22 @@ export class Bot extends Spaceshooter {
     }
 
     getState(): number[] {        
+        
         const rayResults = this.rayCast(Bot.rayCount, Bot.rayLength);
-        const health = this.entity.hp / this.entity.entityProperties.maxHP;
-        const shield = this.entity.shield / this.entity.entityProperties.maxShield;
-        const ammo = this.entity.ammo / this.entity.entityProperties.maxAmmo;
-        const isReloading = this.entity.entityState.isReloading ? 1 : 0;
 
-        return [...rayResults, health, shield, ammo, isReloading]
+        const health = +(this.entity.hp / this.entity.entityProperties.maxHP).toFixed(2);
+        const shield = +(this.entity.shield / this.entity.entityProperties.maxShield).toFixed(2);
+        const ammo = +(this.entity.ammo / this.entity.entityProperties.maxAmmo).toFixed(2);
+        const isReloading = this.entity.entityState.isReloading ? 1 : 0;
+        const speed = +(this.entity.speed / this.entity.entityProperties.maxSpeed).toFixed(2);
+        const angle = +(this.entity.angle / 360).toFixed(2);
+
+        return [...rayResults, health, shield, ammo, isReloading, speed, angle]
     }
 
     rayCast(rayCount: number, rayLength: number): number[] {
         const position = this.entity.position;
-        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id && !b.isSensor);
+        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id && !(b.isSensor && b.isStatic));
         const rayResults: number[] = [];
 
         for(let i = 0; i < rayCount; i++) {
@@ -77,70 +81,73 @@ export class Bot extends Spaceshooter {
         return rayResults;
     }
 
+    // get bodyID of rays body
     parseRayCollision(ray: Collision | undefined) {
-        if(!ray) return 0;
+        if(!ray) return this.customManager.bodyID['nothing'];
 
         const body = ray.bodyB
 
+        if (body.isStatic) {
+            return this.customManager.bodyID['wall'];
+        }
+
         if(isCustomBody(body)) {
-            return this.bodyTypeToNumber[body.bodyType] ?? 0
+            
+            if(isObstacle(body)) {
+                return this.customManager.bodyID[body.obstacleType];
+            }
+
+            if(isEntity(body)) {
+                return this.customManager.bodyID[body.entityType];
+            }
+
+            return this.customManager.bodyID[body.bodyType];
         }
 
-        if(body.isStatic) {
-            return this.bodyTypeToNumber["wall"] ?? 0
-        }
-
-        return 0;
+        return this.customManager.bodyID['nothing'];
     }
 
     handleAction(action: number) {
 
-        const bitString = action.toString(2);
-        const bits = bitString.split("");
-
-        while (bits.length < 6) {
-            bits.unshift("0");
+        switch(action) {
+            case 0: 
+                this.entity.entityState.forward = true; 
+                this.entity.entityState.backward = false; 
+                break;
+            case 1: 
+                this.entity.entityState.backward = true; 
+                this.entity.entityState.forward = false; 
+                break;
+            case 2: 
+                this.entity.entityState.forward = false; 
+                this.entity.entityState.backward = false; 
+                break;
+            case 3: 
+                this.entity.entityState.right = true; 
+                this.entity.entityState.left = false; 
+                break;
+            case 4: 
+                this.entity.entityState.left = true; 
+                this.entity.entityState.right = false; 
+                break;
+            case 5: 
+                this.entity.entityState.right = false; 
+                this.entity.entityState.left = false; 
+                break;
+            case 6: 
+                this.entity.entityState.boost = true; 
+                break;
+            case 7: 
+                this.entity.entityState.boost = false; 
+                break;
+            case 8: 
+                this.entity.entityState.shoot = true; 
+                break;
+            case 9: 
+                this.entity.entityState.shoot = false; 
+                break;
         }
-
-        const boost = parseInt(bits[0], 2);
-        const shoot = parseInt(bits[1], 2);
-        const direction = parseInt(bits[2] + bits[3], 2);
-        const angle = parseInt(bits[4] + bits[5], 2);
-
-        this.handleBoostAction(boost)
-        this.handleShootAction(shoot)
-        this.handleDirectionAction(direction)
-        this.handleAngleAction(angle)
-    }
-    
-    handleBoostAction(action: number) {
-        switch (action) {
-            case 0: this.entity.entityState.boost = true; break;
-            case 1: this.entity.entityState.boost = false; break;
-        }
-    }
-
-    handleShootAction(action: number) {
-        switch (action) {
-            case 0: this.entity.entityState.shoot = true; break;
-            case 1: this.entity.entityState.shoot = false; break;
-        }
-    }
-
-    handleDirectionAction(action: number) {
-        switch (action) {
-            case 0: this.entity.entityState.forward = true; this.entity.entityState.backward = false; break;
-            case 1: this.entity.entityState.backward = true; this.entity.entityState.forward = false; break;
-            case 2: this.entity.entityState.forward = false; this.entity.entityState.backward = false; break;
-        }
-    }
-
-    handleAngleAction(action: number) {
-        switch (action) {
-            case 0: this.entity.entityState.right = true; this.entity.entityState.left = false; break;
-            case 1: this.entity.entityState.left = true; this.entity.entityState.right = false; break;
-            case 2: this.entity.entityState.right = false; this.entity.entityState.left = false; break;
-        }
+        
     }
 
     handleTickReward(): void {
@@ -156,5 +163,4 @@ export class Bot extends Spaceshooter {
     }
 
     onEntityAmmoChange(): void {}
-
 }

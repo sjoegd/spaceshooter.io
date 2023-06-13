@@ -57,7 +57,7 @@ export abstract class Spaceshooter implements Controller {
         this.tickReward += reward;
     }
 
-    onEntityDamageDealth(damage: number): void {
+    onEntityDamageDealt(damage: number): void {
         const rewardMultiplier = this.customManager.getReward('damageDealt')
         const reward = rewardMultiplier * damage;
         this.tickReward += reward;

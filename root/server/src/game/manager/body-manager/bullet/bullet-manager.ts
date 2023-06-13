@@ -53,7 +53,7 @@ export class BulletManager implements CustomBodyManager<Bullet> {
     onEntityCollision(source: Bullet, target: Entity) {
         const damage = source.bulletType.damage;
         const killed = target.manager.dealDamage(target, damage)
-        source.owner.controller!.onEntityDamageDealth(damage);
+        source.owner.controller!.onEntityDamageDealt(damage);
 
         if(killed && isSpacejet(target)) {
             source.owner.enemyKills++;

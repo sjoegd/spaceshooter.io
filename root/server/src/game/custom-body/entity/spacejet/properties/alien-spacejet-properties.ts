@@ -15,7 +15,7 @@ export class AlienSpacejetProperties implements SpacejetProperties {
     ]].map(arr => arr.map(({x, y}) => ({x: x*this.scale, y: y*this.scale})))
     
     baseTexture: string = 'body/alien_spacejet.png'
-    boostTexture: string = 'body/alien_spacejet.png'
+    boostTexture: string = 'body/alien_spacejet_boost.png'
 
     sprite: SpriteRender = {
         texture: this.baseTexture,

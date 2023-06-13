@@ -4,7 +4,6 @@ import { BodyManager, CustomBodyManager } from "../body-manager";
 import { SpacejetManager } from "./spacejet-manager";
 import { Vector, Body } from 'matter-js';
 import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
-import { isSpacejet } from "../../../custom-body/entity/spacejet/spacejet";
 
 export class EntityManager implements CustomBodyManager<Entity> {
     
@@ -88,7 +87,7 @@ export class EntityManager implements CustomBodyManager<Entity> {
         // deal crash damage
         const damage = this.bodyManager.calculateCrashDamage(source, target)
         target.manager.dealDamage(target, damage)
-        source.controller!.onEntityDamageDealth(damage);
+        source.controller!.onEntityDamageDealt(damage);
     }
 
     dealDamage(target: Entity, damage: number) {

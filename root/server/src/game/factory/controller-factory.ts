@@ -12,10 +12,10 @@ export class ControllerFactory {
         this.controllerManager = controllerManager;
     }
 
-    createBot(agent: Agent): Bot {
+    createBot(agent: Agent, learn: boolean = false): Bot {
         const {x, y} = this.controllerManager.gameManager.createRandomPosition()
         const spacejet = this.controllerManager.gameManager.bodyManager.factory.createSpacejet(x, y, {
-            spacejetPropertiesBase: 'alien'
+            spacejetPropertiesBase: learn ? 'special-alien' : 'alien'
         })
         const bot = new Bot(this.controllerManager.spaceshooterManager, spacejet, agent)
         this.controllerManager.addController(bot)

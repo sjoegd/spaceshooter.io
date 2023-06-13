@@ -48,7 +48,7 @@ export class AgentManager {
     }
 
     createNewBot(agent: Agent) {
-        return this.gameManager.controllerManager.factory.createBot(agent)
+        return this.gameManager.controllerManager.factory.createBot(agent, agent.learn)
     }
 
     removeBot(bot: Bot) {

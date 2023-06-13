@@ -4,8 +4,9 @@ import { SpriteRender } from "../../../../../../../types/render_types";
 import { StandardSpacejetProperties } from "./standard-spacejet-properties";
 import { BulletTypeBase } from '../../../bullet/type/bullet-type';
 import { AlienSpacejetProperties } from "./alien-spacejet-properties";
+import { SpecialAlienSpacejetProperties } from "./special-spacejet-properties";
 
-export type SpacejetPropertiesBase = 'standard' | 'alien'
+export type SpacejetPropertiesBase = 'standard' | 'alien' | 'special-alien'
 
 export interface SpacejetProperties extends EntityProperties {
     scale: number
@@ -28,7 +29,8 @@ export interface SpacejetProperties extends EntityProperties {
 
 const baseToSpacejetProperties = {
     'standard': StandardSpacejetProperties,
-    'alien': AlienSpacejetProperties
+    'alien': AlienSpacejetProperties,
+    'special-alien': SpecialAlienSpacejetProperties
 }
 
 export function createSpacejetProperties(base: SpacejetPropertiesBase): SpacejetProperties {
