@@ -28,7 +28,7 @@ const logger = winston.createLogger({
 // Logging middleware
 app.use((req, res, next) => {
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress || req.ip;
-  logger.info(`${new Date().getDate()} | ${req.method} | ${req.path} | ${ip}`);
+  logger.info(`${new Date().toLocaleString()} | ${req.method} | ${req.path} | ${ip}`);
   next();
 });
 
