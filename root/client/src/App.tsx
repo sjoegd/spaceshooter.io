@@ -1,31 +1,51 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { ClientGameEngine } from './game/client_game_engine';
 import { useWindowSize } from '@react-hook/window-size';
-import RenderEngine from './engines/render_engine';
-import SocketEngine from './engines/socket_engine';
-import InputEngine from './engines/input_engine';
+import Overlay from './components/Overlay';
 
-const socket = new SocketEngine()
-new InputEngine(socket)
+export interface OverlayOptions {
+  setActive: (active: boolean) => void
+}
 
 function App() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const renderRef = useRef<RenderEngine | null>(null)
+  const [overlayActive, setOverlayActive] = useState(true)
   const [width, height] = useWindowSize()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const gameEngineRef = useRef<ClientGameEngine | null>(null)
   
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const render = renderRef.current;
+    const canvas = canvasRef.current
+    let gameEngine = gameEngineRef.current;
 
-    if(!canvas || !width || !height) return;
-    if(!render) {
-      renderRef.current = new RenderEngine(canvas, socket, width, height)
-    } else {
-      render.updateWindow(width, height);
-    }
+    if(!canvas) return;
+
+    if(!gameEngine) {
+      gameEngineRef.current = new ClientGameEngine(
+        canvas, 
+        width, 
+        height, 
+        {setActive: setOverlayActive}
+      )
+
+      gameEngine = gameEngineRef.current
+    } 
+      
+    gameEngine.updateWindowSize(width, height)
+
   }, [width, height])
 
+  function playGame() {
+    const game = gameEngineRef.current;
+    if(!game) return;
+
+    game.startPlaying()
+  }
+
   return (
-    <canvas ref={canvasRef}></canvas>
+    <>    
+      <Overlay overlayActive={overlayActive} play={() => playGame()}/>
+      <canvas ref={canvasRef}></canvas>
+    </>
   )
 }
 

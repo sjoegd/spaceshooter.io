@@ -1,47 +1,88 @@
 import {default as express} from "express";
+import minimist from "minimist";
+import winston from "winston";
 import { Server } from "socket.io"
-import GameEngine from "./game_engine";
+import { ServerGameEngine } from "./game/server-game-engine";
+import path from "path";
 
-const app = express()
-const port = 3000
+// Parse arguments
+const argv = minimist(process.argv.slice(2), {
+  string: ["train"],
+}); 
+const train = argv.train !== undefined;
 
-// // Temporary cors middleware
-// // from https://stackoverflow.com/questions/55522717/how-to-enable-cors-in-nodejs
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000/');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type, Authorization');
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     next();
-// })
+// Setup express
+const app  = express();
+const port = 3000;
 
-// Setup static file serving
-app.use(express.static("../client/dist"))
+// Setup logger
+const logger = winston.createLogger({
+  level: "info",
+  format: winston.format.json(),
+  defaultMeta: { service: "user-service" },
+  transports: [
+    new winston.transports.File({ filename: path.resolve(__dirname, "../logs/info.log") }),
+  ]
+});
 
-// Setup port + listen
-const httpServer = app.listen(3000, () => {
-    console.log(`Starting listening at http://localhost:${port}/`)
-})
+// Logging middleware
+app.use((req, res, next) => {
+    logger.info(`${new Date().getDate()} | ${req.method} | ${req.path} | ${req.ip}`);
+    next();
+});
+
+// Cors middleware
+app.use((req, res, next) => {
+    res.setHeader(
+        "Access-Control-Allow-Origin", 
+        "http://localhost:3000/"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Methods", 
+        "GET, POST"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "X-Requested-With, content-type, Authorization"
+    );
+    res.setHeader(
+        "Access-Control-Allow-Credentials",
+        "true"
+    );
+
+    next();
+});
+
+// Static middleware
+app.use(express.static("../client/dist"));
+
+// Setup server
+const server = app.listen(port, () => {
+    logger.info(`Starting listening at http://localhost:${port}/`);
+});
 
 // Setup socket.io
-const io = new Server(httpServer, {
-    path: '/mysocket'
-    // cors: {
-    //     origin: '*'
-    // }
+const io = new Server(server, {
+    path: '/game-socket',
+    cors: {
+        origin: '*'
+    }
 })
 
-// Setup the game engine with socket connection handling
-const gameEngine = new GameEngine()
+// Setup a game lobby
+const lobby = new ServerGameEngine(train ? 30 : 60, train)
 
-io.on("connection", (socket) => {
-    console.log(`Socket connected: ${socket.id}`)
-    gameEngine.onSocketConnect(socket)
+// Setup socket connections to lobby
+io.on('connection', (socket) => {
+    logger.info(`Socket connected: ${socket.id}`)
+    lobby.connectSocket(socket)
 
     socket.on('disconnect', () => {
-        console.log(`Socket disconnected: ${socket.id}`)
-        gameEngine.onSocketDisconnect(socket)
+        logger.info(`Socket disconnected: ${socket.id}`)
+        lobby.disconnectSocket(socket)
     })
 })
+
+
 
 
