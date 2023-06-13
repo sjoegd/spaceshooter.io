@@ -34,7 +34,7 @@ export class GameManager {
         this.collisionManager = new CollisionManager(this)
         this.controllerManager = new ControllerManager(this)
         this.socketManager = new SocketManager(this)
-        this.agentManager = new AgentManager(this, 1, train)
+        this.agentManager = new AgentManager(this, 5, train)
     }
 
     manageGameBeforeUpdate() {

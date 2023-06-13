@@ -13,7 +13,7 @@ export class Agent {
     bots: Bot[] = [];
     botCount: number;
 
-    constructor(manager: AgentManager, model: IDQNAgentJSON, learn: boolean = false, botCount: number = 1) {
+    constructor(manager: AgentManager, model: IDQNAgentJSON, learn: boolean = false, botCount: number = 2) {
         this.manager = manager;
         this.DQN = new DQNAgent(model);
         this.learn = learn;
