@@ -1,4 +1,4 @@
-import { CustomBody } from "../custom-body/custom-body";
+import { CustomBody, isCustomBody } from "../custom-body/custom-body";
 import { BodyManager } from "../manager/body-manager/body-manager";
 import { isAsteroid } from '../custom-body/obstacle/asteroid';
 import { BASE_TICK_RATE } from "../server-game-engine";
@@ -52,6 +52,21 @@ export class BodySpawner {
     }
 
     manageSpawning() {  
+
+        // bug check
+        if(this.bodyManager.gameManager.getCurrentTick() % 1000 == 0) {
+            let total = 0;
+            for(const body of this.bodyManager.gameManager.physicsWorld.bodies) {
+                if(!isCustomBody(body)) continue;
+                if(isAsteroid(body)) total++
+            } 
+            console.log(`
+                total: ${total}
+                amount: ${this.spawns.asteroid.amount}
+                max: ${this.spawns.asteroid.spawnAmount}
+            `)
+        }
+
         for(const spawn of Object.values(this.spawns)) {
             this.manageSpawn(spawn)
         }
