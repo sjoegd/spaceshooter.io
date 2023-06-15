@@ -15,7 +15,6 @@ export class GameManager {
 
     gameEngine: ServerGameEngine
     physicsEngine: Engine
-    physicsWorld: World
 
     bodyManager: BodyManager
     collisionManager: CollisionManager
@@ -26,7 +25,6 @@ export class GameManager {
     constructor(gameEngine: ServerGameEngine, train: boolean) {
         this.gameEngine = gameEngine;
         this.physicsEngine = gameEngine.physicsEngine;
-        this.physicsWorld = this.physicsEngine.world;
 
         this.setupWorld()
 
@@ -47,7 +45,7 @@ export class GameManager {
         this.agentManager.manageAgents()
         if(this.socketManager.shouldSendGameStateUpdate()) { 
             this.socketManager.onGameStateUpdate(
-                this.physicsWorld.bodies
+                this.physicsEngine.world.bodies
                     .sort(this.bodyManager.sortBody)
                     .map(b => this.getBodyRender(b))
             ) 
@@ -57,7 +55,7 @@ export class GameManager {
     setupWorld() {
         const background = this.createWorldBackground()
         const borders = this.createWorldBorders()
-        World.add(this.physicsWorld, [background, ...borders])
+        World.add(this.physicsEngine.world, [background, ...borders])
     }
 
     createWorldBackground(): Body {

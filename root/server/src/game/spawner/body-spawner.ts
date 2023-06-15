@@ -56,7 +56,7 @@ export class BodySpawner {
         // bug check
         if(this.bodyManager.gameManager.getCurrentTick() % 1000 == 0) {
             let total = 0;
-            for(const body of this.bodyManager.gameManager.physicsWorld.bodies) {
+            for(const body of this.bodyManager.gameManager.physicsEngine.world.bodies) {
                 if(!isCustomBody(body)) continue;
                 if(isAsteroid(body)) total++
             } 

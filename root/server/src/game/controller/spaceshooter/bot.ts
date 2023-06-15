@@ -67,7 +67,7 @@ export class Bot extends Spaceshooter {
 
     rayCast(rayCount: number, rayLength: number): number[] {
         const position = this.entity.position;
-        const bodies = this.manager.gameManager.physicsWorld.bodies.filter(b => b.id !== this.entity.id && !(b.isSensor && b.isStatic));
+        const bodies = this.manager.gameManager.physicsEngine.world.bodies.filter(b => b.id !== this.entity.id && !(b.isSensor && b.isStatic));
         const rayResults: number[] = [];
 
         for(let i = 0; i < rayCount; i++) {
