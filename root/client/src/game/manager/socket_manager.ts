@@ -17,13 +17,11 @@ export class SocketManager {
         })
 
         this.socket.on('connect', () => {
-            console.log(`Connected`)
             this.isConnected = true;
             this.engine.overlayOptions.setActive(true)
         })
 
         this.socket.on('disconnect', () => {
-            console.log(`Disconnected`)
             this.isConnected = false;
         })
     }
@@ -35,6 +33,7 @@ export class SocketManager {
 
         this.socket.on('player-state-update', (playerState: PlayerStateRender) => {
             this.engine.render.updatePlayerState(playerState)
+            this.engine.hudOptions.setPlayerState(this.engine.render.playerState);
         })
 
         this.socket.on('death', () => {

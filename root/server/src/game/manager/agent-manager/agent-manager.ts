@@ -14,6 +14,7 @@ export class AgentManager {
     gameManager: GameManager
     factory: AgentFactory
     learningManager: LearningManager
+    learn: boolean
 
     agents: Agent[] = []
 
@@ -21,6 +22,7 @@ export class AgentManager {
         this.gameManager = gameManager;
         this.factory = new AgentFactory(this);
         this.learningManager = new LearningManager(this);
+        this.learn = learn;
         this.createAgents(amount, learn);
 
         if(learn) {
@@ -35,7 +37,9 @@ export class AgentManager {
     }
 
     manageAgents() {
-        this.learningManager.manageLearning(this.agents)
+        if(this.learn) {
+            this.learningManager.manageLearning(this.agents)
+        }
         for(const agent of this.agents) {
             agent.manage()
         }

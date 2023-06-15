@@ -63,7 +63,6 @@ export abstract class Spaceshooter implements Controller {
         this.tickReward += reward;
     }
 
-
     onEntityPowerupTaken(): void {
         const reward = this.customManager.getReward('powerupTaken')
         this.tickReward += reward;

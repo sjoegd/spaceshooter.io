@@ -30,7 +30,8 @@ export class RenderManager {
     playerState: PlayerStateRender = {
         health: 0,
         shield: 0,
-        ammo: 0
+        ammo: 0,
+        score: 0
     }
 
     constructor(gameEngine: ClientGameEngine, canvas: HTMLCanvasElement, width: number, height: number) {
@@ -62,7 +63,12 @@ export class RenderManager {
     }
 
     updatePlayerState(playerState: PlayerStateRender) {
-        this.playerState = { ...this.playerState, ...playerState };
+        this.playerState = { 
+            health: playerState.health ?? this.playerState.health,
+            shield: playerState.shield ?? this.playerState.shield,
+            ammo: playerState.ammo ?? this.playerState.ammo,
+            score: playerState.score ?? this.playerState.score
+         };
     }
 
     drawState(state: GameStateRender, playerState: PlayerStateRender) {

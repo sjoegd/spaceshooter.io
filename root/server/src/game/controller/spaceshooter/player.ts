@@ -35,10 +35,12 @@ export class Player extends Spaceshooter {
         this.socket.on('key', (key, down) => {
             this.keyInputs.push({key, down})
         })
+        this.onPlayerStateUpdate({health: this.entity.hp, shield: this.entity.shield, ammo: this.entity.ammo, score: this.totalReward})
     }
 
     stopSocketConnection() {
         this.socket.removeAllListeners('key')
+        this.onPlayerStateUpdate({health: this.entity.hp, shield: this.entity.shield, ammo: this.entity.ammo, score: this.totalReward})
     }
     
     handleInput(): void {
@@ -70,6 +72,8 @@ export class Player extends Spaceshooter {
         this.socket.emit('player-state-update', update)
     }
 
+    onEntityTickSurvived(): void {}
+
     onEntityDeath(): void {
         this.socket.emit('death')
         this.socket.manager.removeSocketsPlayer(this.socket)
@@ -77,10 +81,16 @@ export class Player extends Spaceshooter {
 
     onEntityDamageTaken(damage: number): void {
         super.onEntityDamageTaken(damage)
-        this.onPlayerStateUpdate({health: this.entity.hp})
+        this.onPlayerStateUpdate({health: this.entity.hp, shield: this.entity.shield})
     }
 
     onEntityAmmoChange(): void {
         this.onPlayerStateUpdate({ammo: this.entity.ammo})
     }
+
+    onEntityPowerupTaken(): void {
+        super.onEntityPowerupTaken()
+        this.onPlayerStateUpdate({health: this.entity.hp, shield: this.entity.shield})
+    }
+
 }

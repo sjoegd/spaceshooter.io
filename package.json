@@ -1,13 +1,16 @@
 {
   "name": "spaceshooter.io",
-  "version": "v3.0.0",
-  "description": "",
+  "version": "v3.0.2",
+  "description": "Typescript web game",
   "scripts": {
     "build": "npm run buildApp && npm run buildServer",
     "buildApp": "cd ./root/client && npm i && npm run build && cd ../..",
     "buildServer": "cd ./root/server && npm i && npm run build && cd ../..",
     "start": "cd ./root/server && npm run start",
-    "patch": "cd ./root/client && npm version patch && cd ../server && npm version patch"
+    "train": "cd ./root/server && npm run train",
+    "startProcess": "pm2 start ./root/server/dist/index.js -i max",
+    "trainProcess": "pm2 start ./root/server/dist/index.js -i max -- --train",
+    "patch": "npm version patch && cd ./root/client && npm version patch && cd ../server && npm version patch"
   },
   "keywords": [
     "io game",
@@ -19,5 +22,8 @@
     "socket.io"
   ],
   "author": "Sjoegd",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pm2": "^5.3.0"
+  }
 }

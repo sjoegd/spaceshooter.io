@@ -112,6 +112,7 @@ export class EntityManager implements CustomBodyManager<Entity> {
 
         // handle death
         if(target.hp <= 0) {
+            target.hp = 0;
             target.controller!.onEntityDeath()
             this.bodyManager.removeCustomBody(target)
             return true;

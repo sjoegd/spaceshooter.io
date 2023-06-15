@@ -51,12 +51,13 @@ export class BodyManager {
 
     addCustomBody(body: CustomBody) {
         this.customBodies.push(body)
+        this.spawner.onSpawn(body)
         World.add(this.gameManager.physicsWorld, body)
     }
 
     removeCustomBody(body: CustomBody) {
         this.customBodies = this.customBodies.filter(b => b.id !== body.id)
-        this.spawner.onSpawnRemoval(body)
+        this.spawner.onDespawn(body)
         World.remove(this.gameManager.physicsWorld, body)
     }
 

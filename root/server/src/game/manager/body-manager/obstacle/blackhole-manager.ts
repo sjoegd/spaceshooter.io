@@ -76,8 +76,7 @@ export class BlackholeManager extends ObstacleManager implements CustomBodyManag
     }
 
     onAsteroidCollision(_source: Blackhole, target: Asteroid) {
-        // deal infinity damage
-        const damage = Infinity;
+        const damage = target.hp;
         target.manager.dealDamage(target, damage)
     }
 

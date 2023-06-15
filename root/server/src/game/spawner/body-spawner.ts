@@ -27,8 +27,8 @@ export class BodySpawner {
         asteroid: {
             create: (x, y) => this.createRandomAsteroid(x, y),
             isBodyType: isAsteroid,
-            spawnRate: 1,
-            spawnAmount: 30,
+            spawnRate: 0.75,
+            spawnAmount: 25,
             amount: 0
         },
         blackhole: {
@@ -42,7 +42,7 @@ export class BodySpawner {
             create: (x, y) => this.createRandomPowerup(x, y),
             isBodyType: isPowerup,
             spawnRate: 0.2,
-            spawnAmount: 10,
+            spawnAmount: 5,
             amount: 0
         }
     }
@@ -58,16 +58,23 @@ export class BodySpawner {
     }
 
     manageSpawn(spawn: BodySpawnInstance<CustomBody>) {
-        if(spawn.amount >= spawn.spawnAmount) return;
+        if(spawn.amount == spawn.spawnAmount) return;
         if(this.baseSpawnRate < Math.random()) return;
         if(spawn.spawnRate < Math.random()) return;
 
         const {x, y} = this.bodyManager.gameManager.createRandomPosition()
         spawn.create(x, y)
-        spawn.amount++;
     }
 
-    onSpawnRemoval(body: CustomBody) {
+    onSpawn(body: CustomBody) {
+        for(const spawn of Object.values(this.spawns)) {
+            if(spawn.isBodyType(body)) {
+                spawn.amount++
+            }
+        }
+    }
+
+    onDespawn(body: CustomBody) {
         for(const spawn of Object.values(this.spawns)) {
             if(spawn.isBodyType(body)) {
                 spawn.amount--
