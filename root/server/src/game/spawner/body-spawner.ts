@@ -53,18 +53,22 @@ export class BodySpawner {
 
     manageSpawning() {  
 
-        // bug check
+        // This has some weird bug where sometimes randomly, a body is either not removed correctly or added twice
+        // Since the total amount of bodies present in the physics engine is randomly higher than the amount states here
+        // This is a temporary fix to make sure the amount is always correct
+        // TODO: Fix this bug
         if(this.bodyManager.gameManager.getCurrentTick() % 1000 == 0) {
-            let total = 0;
-            for(const body of this.bodyManager.gameManager.physicsEngine.world.bodies) {
-                if(!isCustomBody(body)) continue;
-                if(isAsteroid(body)) total++
-            } 
-            console.log(`
-                total: ${total}
-                amount: ${this.spawns.asteroid.amount}
-                max: ${this.spawns.asteroid.spawnAmount}
-            `)
+            for(const [key, spawn] of Object.entries(this.spawns)) {
+                let total = 0;
+                for(const body of this.bodyManager.gameManager.physicsEngine.world.bodies) {
+                    if(!isCustomBody(body)) continue;
+                    if(spawn.isBodyType(body)) total++
+                }
+                if(total !== spawn.amount) {
+                    console.error(`BUG! type: ${key}, amount: ${spawn.amount} !== total: ${total}`)
+                    spawn.amount = total;
+                }
+            }
         }
 
         for(const spawn of Object.values(this.spawns)) {

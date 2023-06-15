@@ -52,13 +52,13 @@ export class BodyManager {
     addCustomBody(body: CustomBody) {
         this.customBodies.push(body)
         this.spawner.onSpawn(body)
-        World.add(this.gameManager.physicsEngine.world, body);
+        World.addBody(this.gameManager.physicsEngine.world, body);
     }
 
     removeCustomBody(body: CustomBody) {
         this.customBodies = this.customBodies.filter(b => b.id !== body.id)
         this.spawner.onDespawn(body)
-        World.remove(this.gameManager.physicsEngine.world, body)
+        World.remove(this.gameManager.physicsEngine.world, body, true)
     }
 
     sortBody(a: Body, b: Body) {
