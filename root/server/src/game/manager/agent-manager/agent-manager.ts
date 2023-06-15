@@ -5,6 +5,8 @@ import { Bot } from '../../controller/spaceshooter/bot';
 import { LearningManager } from './learning-manager';
 // @ts-ignore
 import { DQNAgent } from "../../../../node_modules/@brain/rl/dist/rl.js"
+import { readFileSync } from 'fs';
+import path from 'path';
 
 
 export class AgentManager {
@@ -28,7 +30,7 @@ export class AgentManager {
 
     createAgents(amount: number, learn: boolean) {
         for(let i = 0; i < amount; i++) {
-            this.factory.createAgent(this.createRandomModel(), i === 0 ? learn : false)
+            this.factory.createAgent(this.getTrainedModel(), i === 0 ? learn : false)
         }
     }
 
@@ -53,6 +55,12 @@ export class AgentManager {
 
     removeBot(bot: Bot) {
         this.gameManager.controllerManager.removeController(bot)
+    }
+
+    getTrainedModel() {
+        const file = readFileSync(path.resolve(__dirname, '../../../../model/model.json'))
+        const model = JSON.parse(file.toString())
+        return model
     }
 
     createRandomModel() {
