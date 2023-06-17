@@ -9,8 +9,8 @@
     "start": "cd ./root/server && npm run start",
     "train": "cd ./root/server && npm run train",
     "startProcess": "pm2 start ./root/server/dist/index.js",
-    "newTrainProcess": "pm2 start ./root/server/dist/index.js -- --train --newModel",
-    "resumeTrainProcess": "pm2 start ./root/server/dist/index.js -- --train",
+    "newTrainProcess": "cd ./root/server && pm2 start ./dist/index.js -- --train --newModel && cd ../..",
+    "resumeTrainProcess": "cd ./root/server && pm2 start ./dist/index.js -- --train && cd ../..",
     "patch": "npm version patch && cd ./root/client && npm version patch && cd ../server && npm version patch"
   },
   "keywords": [

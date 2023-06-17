@@ -27,6 +27,7 @@ export class AgentManager {
 
         if(learn) {
             console.log('Started learning')
+            console.log('New Model: ', newModel)
         }
     }
 
