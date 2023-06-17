@@ -1,8 +1,8 @@
-import { PlayerStateRender } from "../../../../../types/render_types";
-import Ammobar from "./Ammobar";
-import Healthbar from "./Healthbar";
-import Scorebar from "./Scorebar";
-import Shieldbar from "./Shieldbar";
+import { PlayerStateRender } from '../../../../../types/render_types';
+import Ammobar from './Ammobar';
+import Healthbar from './Healthbar';
+import Scorebar from './Scorebar';
+import Shieldbar from './Shieldbar';
 
 export default function Hud(props: {playerState: PlayerStateRender}) {
 

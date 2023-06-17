@@ -1,7 +1,7 @@
-import { Vector } from "matter-js";
-import { BulletType } from "./bullet-type";
-import { SpriteRender } from "../../../../../../types/render_types";
+import { Vector } from 'matter-js';
 
+import { SpriteRender } from '../../../../../../types/render_types';
+import { BulletType } from './bullet-type';
 
 export class StandardBulletType implements BulletType {
     scale: number = 1/40;

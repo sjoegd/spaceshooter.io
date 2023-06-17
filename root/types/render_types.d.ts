@@ -1,4 +1,4 @@
-import { Vector, IBodyRenderOptions } from 'matter-js';
+import { IBodyRenderOptions, Vector } from 'matter-js';
 
 export interface GameStateRender {
     bodyRenders: BodyRender[],

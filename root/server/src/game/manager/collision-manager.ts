@@ -1,7 +1,8 @@
-import { GameManager } from './game-manager';
-import { Events, Body } from 'matter-js';
-import { isCustomBody, CustomBody } from '../custom-body/custom-body';
+import { Body, Events } from 'matter-js';
+
+import { CustomBody, isCustomBody } from '../custom-body/custom-body';
 import { CustomBodyManager } from './body-manager/body-manager';
+import { GameManager } from './game-manager';
 
 export class CollisionManager {
     

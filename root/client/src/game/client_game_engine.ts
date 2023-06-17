@@ -1,7 +1,7 @@
-import { HudOptions, OverlayOptions } from "./components/Game";
-import { InputManager } from "./manager/input_manager";
-import { RenderManager } from "./manager/render_manager";
-import { SocketManager } from "./manager/socket_manager";
+import { HudOptions, OverlayOptions } from './components/Game';
+import { InputManager } from './manager/input_manager';
+import { RenderManager } from './manager/render_manager';
+import { SocketManager } from './manager/socket_manager';
 
 export class ClientGameEngine {
 

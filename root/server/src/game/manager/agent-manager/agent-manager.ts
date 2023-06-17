@@ -1,13 +1,13 @@
-import { GameManager } from '../game-manager';
-import { AgentFactory } from '../../factory/agent-factory';
-import { Agent } from '../../agent/agent';
-import { Bot } from '../../controller/spaceshooter/bot';
-import { LearningManager } from './learning-manager';
-// @ts-ignore
-import { DQNAgent } from "../../../../node_modules/@brain/rl/dist/rl.js"
 import { readFileSync } from 'fs';
 import path from 'path';
 
+// @ts-ignore
+import { DQNAgent } from '../../../../node_modules/@brain/rl/dist/rl.js';
+import { Agent } from '../../agent/agent';
+import { Bot } from '../../controller/spaceshooter/bot';
+import { AgentFactory } from '../../factory/agent-factory';
+import { GameManager } from '../game-manager';
+import { LearningManager } from './learning-manager';
 
 export class AgentManager {
 
@@ -18,21 +18,24 @@ export class AgentManager {
 
     agents: Agent[] = []
 
-    constructor(gameManager: GameManager, amount: number = 0, learn: boolean = false) {
+    constructor(gameManager: GameManager, amount: number = 0, learn: boolean = false, newModel: boolean = false) {
         this.gameManager = gameManager;
         this.factory = new AgentFactory(this);
         this.learningManager = new LearningManager(this);
         this.learn = learn;
-        this.createAgents(amount, learn);
+        this.createAgents(amount, learn, newModel);
 
         if(learn) {
             console.log('Started learning')
         }
     }
 
-    createAgents(amount: number, learn: boolean) {
+    createAgents(amount: number, learn: boolean, newModel: boolean) {
         for(let i = 0; i < amount; i++) {
-            this.factory.createAgent(this.getTrainedModel(), i === 0 ? learn : false)
+            this.factory.createAgent(
+                newModel ? this.createRandomModel() : this.getTrainedModel(), 
+                i === 0 ? learn : false
+            )
         }
     }
 

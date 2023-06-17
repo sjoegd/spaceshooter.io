@@ -1,15 +1,17 @@
-import {default as express} from "express";
-import minimist from "minimist";
-import winston from "winston";
-import { Server } from "socket.io"
-import { ServerGameEngine } from "./game/server-game-engine";
-import path from "path";
+import { default as express } from 'express';
+import minimist from 'minimist';
+import path from 'path';
+import { Server } from 'socket.io';
+import winston from 'winston';
+
+import { ServerGameEngine } from './game/server-game-engine';
 
 // Parse arguments
 const argv = minimist(process.argv.slice(2), {
-  string: ["train"],
+  string: ["train", "new_model"],
 }); 
 const train = argv.train !== undefined;
+const newModel = argv.new_model !== undefined;
 
 // Setup express
 const app  = express();

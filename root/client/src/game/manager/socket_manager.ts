@@ -1,6 +1,7 @@
-import { io, Socket } from "socket.io-client";
-import { ClientGameEngine } from "../client_game_engine";
-import { GameStateRender, PlayerStateRender } from "../../../../types/render_types";
+import { io, Socket } from 'socket.io-client';
+
+import { GameStateRender, PlayerStateRender } from '../../../../types/render_types';
+import { ClientGameEngine } from '../client_game_engine';
 
 export class SocketManager {
 

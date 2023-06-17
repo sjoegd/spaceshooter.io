@@ -1,9 +1,12 @@
-import { CustomBody, createCustomBody } from "../../custom-body";
-import { Entity, EntityState, createEntity, isEntity } from "../entity";
-import { SpacejetManager } from "../../../manager/body-manager/entity/spacejet-manager";
-import { SpacejetProperties, SpacejetPropertiesBase, createSpacejetProperties } from "./properties/spacejet-properties";
-import { Bodies } from "matter-js";
+import { Bodies } from 'matter-js';
+
 import { Spaceshooter } from '../../../controller/spaceshooter/spaceshooter';
+import { SpacejetManager } from '../../../manager/body-manager/entity/spacejet-manager';
+import { createCustomBody, CustomBody } from '../../custom-body';
+import { createEntity, Entity, EntityState, isEntity } from '../entity';
+import {
+    createSpacejetProperties, SpacejetProperties, SpacejetPropertiesBase
+} from './properties/spacejet-properties';
 
 export interface Spacejet extends Entity {
     manager: SpacejetManager

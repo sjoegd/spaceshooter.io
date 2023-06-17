@@ -1,8 +1,9 @@
-import { Vector } from "matter-js";
-import { SpriteRender } from "../../../../../../../types/render_types";
-import { BASE_TICK_RATE } from "../../../../server-game-engine";
-import { SpacejetProperties } from "./spacejet-properties";
-import { BulletTypeBase } from "../../../bullet/type/bullet-type";
+import { Vector } from 'matter-js';
+
+import { SpriteRender } from '../../../../../../../types/render_types';
+import { BASE_TICK_RATE } from '../../../../server-game-engine';
+import { BulletTypeBase } from '../../../bullet/type/bullet-type';
+import { SpacejetProperties } from './spacejet-properties';
 
 export class AlienSpacejetProperties implements SpacejetProperties {
     

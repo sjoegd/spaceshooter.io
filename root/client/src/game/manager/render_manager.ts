@@ -1,7 +1,10 @@
-import { Vector } from "matter-js"
-import { GameStateRender, BodyRender, SpriteRender, PlayerStateRender } from "../../../../types/render_types";
-import { ClientGameEngine } from "../client_game_engine";
-import { createLinearGradient, createPattern } from "../../util/fillStyle";
+import { Vector } from 'matter-js';
+
+import {
+    BodyRender, GameStateRender, PlayerStateRender, SpriteRender
+} from '../../../../types/render_types';
+import { createLinearGradient, createPattern } from '../../util/fillStyle';
+import { ClientGameEngine } from '../client_game_engine';
 
 export class RenderManager {
 

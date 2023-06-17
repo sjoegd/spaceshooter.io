@@ -1,5 +1,6 @@
-import { Engine } from "matter-js";
-import { Socket } from "socket.io";
+import { Engine } from 'matter-js';
+import { Socket } from 'socket.io';
+
 import { GameManager } from './manager/game-manager';
 
 export const BASE_TICK_RATE: number = 60;
@@ -14,14 +15,14 @@ export class ServerGameEngine {
 
     gameManager: GameManager;
 
-    constructor(tickRate: number = BASE_TICK_RATE, train: boolean = false) {
+    constructor(tickRate: number = BASE_TICK_RATE, train: boolean = false, newModel: boolean = false) {
         this.tickRate = tickRate;
 
         this.physicsEngine = Engine.create({
             gravity: {x: 0, y: 0}
         });
 
-        this.gameManager = new GameManager(this, train);
+        this.gameManager = new GameManager(this, train, newModel);
 
         this.gameLoop = this.createGameLoop()
     }

@@ -1,11 +1,12 @@
-import { Events, Body } from 'matter-js';
-import { GameManager } from '../game-manager';
-import { CustomBody, isCustomBody } from '../../custom-body/custom-body';
-import { CustomBodyManager } from '../body-manager/body-manager';
+import { Body, Events } from 'matter-js';
+
 import { Controller } from '../../controller/controller';
-import { SpaceshooterManager } from './spaceshooter/spaceshooter-manager';
 import { isSpaceshooter } from '../../controller/spaceshooter/spaceshooter';
+import { CustomBody, isCustomBody } from '../../custom-body/custom-body';
 import { ControllerFactory } from '../../factory/controller-factory';
+import { CustomBodyManager } from '../body-manager/body-manager';
+import { GameManager } from '../game-manager';
+import { SpaceshooterManager } from './spaceshooter/spaceshooter-manager';
 
 export class ControllerManager {
 

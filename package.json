@@ -8,8 +8,9 @@
     "buildServer": "cd ./root/server && npm i && npm run build && cd ../..",
     "start": "cd ./root/server && npm run start",
     "train": "cd ./root/server && npm run train",
-    "startProcess": "pm2 start ./root/server/dist/index.js -i max",
-    "trainProcess": "pm2 start ./root/server/dist/index.js -i max -- --train",
+    "startProcess": "pm2 start ./root/server/dist/index.js",
+    "newTrainProcess": "pm2 start ./root/server/dist/index.js -- --train --newModel",
+    "resumeTrainProcess": "pm2 start ./root/server/dist/index.js -- --train",
     "patch": "npm version patch && cd ./root/client && npm version patch && cd ../server && npm version patch"
   },
   "keywords": [

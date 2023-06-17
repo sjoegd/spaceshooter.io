@@ -1,5 +1,5 @@
 import { Controller } from '../../../controller/controller';
-import { Spaceshooter, isSpaceshooter } from '../../../controller/spaceshooter/spaceshooter';
+import { isSpaceshooter, Spaceshooter } from '../../../controller/spaceshooter/spaceshooter';
 import { ControllerManager, CustomControllerManager } from '../controller-manager';
 
 type rewardAction =

@@ -1,11 +1,11 @@
-import { CustomBody } from "../../../custom-body/custom-body";
-import { Powerup, isPowerup } from "../../../custom-body/powerup/powerup";
-import { BodyManager, CustomBodyManager } from "../body-manager";
-import { PowerupEffectBase } from '../../../custom-body/powerup/effect/powerup-effect';
 import inBetween from '../../../../util/in-between';
+import { isBullet } from '../../../custom-body/bullet/bullet';
+import { CustomBody } from '../../../custom-body/custom-body';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
+import { PowerupEffectBase } from '../../../custom-body/powerup/effect/powerup-effect';
+import { isPowerup, Powerup } from '../../../custom-body/powerup/powerup';
 import { BASE_TICK_RATE } from '../../../server-game-engine';
-import { isBullet } from "../../../custom-body/bullet/bullet";
+import { BodyManager, CustomBodyManager } from '../body-manager';
 
 export class PowerupManager implements CustomBodyManager<Powerup> {
     

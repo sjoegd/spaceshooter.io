@@ -1,9 +1,10 @@
-import { Bodies, Vector } from "matter-js";
-import { PowerupManager } from "../../manager/body-manager/powerup/powerup-manager";
-import { CustomBody, createCustomBody } from "../custom-body";
+import { Bodies, Vector } from 'matter-js';
+
 import { SpriteRender } from '../../../../../types/render_types';
-import { Entity } from "../entity/entity";
-import { PowerupEffect, PowerupEffectBase, createPowerupEffect } from './effect/powerup-effect';
+import { PowerupManager } from '../../manager/body-manager/powerup/powerup-manager';
+import { createCustomBody, CustomBody } from '../custom-body';
+import { Entity } from '../entity/entity';
+import { createPowerupEffect, PowerupEffect, PowerupEffectBase } from './effect/powerup-effect';
 
 export interface Powerup extends CustomBody {
     bodyType: 'powerup'

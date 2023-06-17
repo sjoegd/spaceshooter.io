@@ -1,4 +1,4 @@
-import { ClientGameEngine } from "../client_game_engine";
+import { ClientGameEngine } from '../client_game_engine';
 
 export class InputManager {
 

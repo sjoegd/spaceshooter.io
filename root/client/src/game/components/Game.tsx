@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useRef, useState, useEffect, useReducer } from 'react';
-import { ClientGameEngine } from '../client_game_engine';
+import { useEffect, useReducer, useRef, useState } from 'react';
+
 import { useWindowSize } from '@react-hook/window-size';
+
+import { PlayerStateRender } from '../../../../types/render_types';
+import { ClientGameEngine } from '../client_game_engine';
 import Overlay from './Overlay';
 import { Render } from './Render';
-import { PlayerStateRender } from '../../../../types/render_types';
 
 export interface OverlayOptions {
   setActive: (active: boolean) => void

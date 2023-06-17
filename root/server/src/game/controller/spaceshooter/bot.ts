@@ -1,16 +1,17 @@
-import { Collision, Query, Vector } from "matter-js";
-import { Agent } from "../../agent/agent";
-import { Spacejet } from "../../custom-body/entity/spacejet/spacejet";
-import { SpaceshooterManager } from "../../manager/controller-manager/spaceshooter/spaceshooter-manager";
-import { Spaceshooter } from "./spaceshooter";
-import { isCustomBody } from "../../custom-body/custom-body";
-import { isObstacle } from "../../custom-body/obstacle/obstacle";
-import { isEntity } from "../../custom-body/entity/entity";
+import { Collision, Query, Vector } from 'matter-js';
+
+import { Agent } from '../../agent/agent';
+import { isCustomBody } from '../../custom-body/custom-body';
+import { isEntity } from '../../custom-body/entity/entity';
+import { Spacejet } from '../../custom-body/entity/spacejet/spacejet';
+import { isObstacle } from '../../custom-body/obstacle/obstacle';
+import { SpaceshooterManager } from '../../manager/controller-manager/spaceshooter/spaceshooter-manager';
+import { Spaceshooter } from './spaceshooter';
 
 export class Bot extends Spaceshooter {
 
     static rayCount = 16;
-    static rayLength = 300;
+    static rayLength = 250;
 
     /**
     * rayCount 
@@ -26,16 +27,12 @@ export class Bot extends Spaceshooter {
     /**
      * forward
      * backward
-     * stop
      * left
      * right
-     * stop turn
      * shoot
-     * stop shoot
      * boost
-     * stop boost
      */
-    static actionSpace: number = 10; 
+    static actionSpace: number = 6; 
 
     agent: Agent
     isDeath: boolean = false;
@@ -109,42 +106,33 @@ export class Bot extends Spaceshooter {
 
     handleAction(action: number) {
 
+        const state = this.entity.entityState;
+        // reset state
+        state.forward = false;
+        state.backward = false;
+        state.right = false;
+        state.left = false;
+        state.boost = false;
+        state.shoot = false;
+
         switch(action) {
             case 0: 
-                this.entity.entityState.forward = true; 
-                this.entity.entityState.backward = false; 
+                state.forward = true; 
                 break;
             case 1: 
-                this.entity.entityState.backward = true; 
-                this.entity.entityState.forward = false; 
+                state.backward = true; 
                 break;
             case 2: 
-                this.entity.entityState.forward = false; 
-                this.entity.entityState.backward = false; 
+                state.right = true; 
                 break;
             case 3: 
-                this.entity.entityState.right = true; 
-                this.entity.entityState.left = false; 
+                state.left = true; 
                 break;
             case 4: 
-                this.entity.entityState.left = true; 
-                this.entity.entityState.right = false; 
+                state.boost = true; 
                 break;
             case 5: 
-                this.entity.entityState.right = false; 
-                this.entity.entityState.left = false; 
-                break;
-            case 6: 
-                this.entity.entityState.boost = true; 
-                break;
-            case 7: 
-                this.entity.entityState.boost = false; 
-                break;
-            case 8: 
-                this.entity.entityState.shoot = true; 
-                break;
-            case 9: 
-                this.entity.entityState.shoot = false; 
+                state.shoot = true; 
                 break;
         }
         

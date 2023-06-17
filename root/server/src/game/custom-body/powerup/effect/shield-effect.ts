@@ -1,4 +1,5 @@
 import { Vector } from 'matter-js';
+
 import { SpriteRender } from '../../../../../../types/render_types';
 import { Entity } from '../../entity/entity';
 import { PowerupEffect } from './powerup-effect';

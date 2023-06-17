@@ -1,10 +1,11 @@
-import { Vector } from "matter-js";
-import { EntityProperties } from "../../entity";
-import { SpriteRender } from "../../../../../../../types/render_types";
-import { StandardSpacejetProperties } from "./standard-spacejet-properties";
+import { Vector } from 'matter-js';
+
+import { SpriteRender } from '../../../../../../../types/render_types';
 import { BulletTypeBase } from '../../../bullet/type/bullet-type';
-import { AlienSpacejetProperties } from "./alien-spacejet-properties";
-import { SpecialAlienSpacejetProperties } from "./special-spacejet-properties";
+import { EntityProperties } from '../../entity';
+import { AlienSpacejetProperties } from './alien-spacejet-properties';
+import { SpecialAlienSpacejetProperties } from './special-spacejet-properties';
+import { StandardSpacejetProperties } from './standard-spacejet-properties';
 
 export type SpacejetPropertiesBase = 'standard' | 'alien' | 'special-alien'
 

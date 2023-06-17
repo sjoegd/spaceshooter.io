@@ -1,8 +1,10 @@
-import { writeFile } from "fs";
-import { AgentManager } from "./agent-manager";
-import { Agent } from "../../agent/agent";
-import { IDQNAgentJSON } from "@brain/rl";
-import path from "path";
+import { writeFile } from 'fs';
+import path from 'path';
+
+import { IDQNAgentJSON } from '@brain/rl';
+
+import { Agent } from '../../agent/agent';
+import { AgentManager } from './agent-manager';
 
 /**
  * swap_steps:

@@ -1,9 +1,11 @@
-import { PlayerStateRender } from "../../../../../types/render_types";
-import { Spacejet } from "../../custom-body/entity/spacejet/spacejet";
-import { ControllerManager } from "../../manager/controller-manager/controller-manager";
-import { SpaceshooterManager } from "../../manager/controller-manager/spaceshooter/spaceshooter-manager";
-import { GameSocket } from "../../manager/socket-manager";
-import { Spaceshooter } from "./spaceshooter";
+import { PlayerStateRender } from '../../../../../types/render_types';
+import { Spacejet } from '../../custom-body/entity/spacejet/spacejet';
+import { ControllerManager } from '../../manager/controller-manager/controller-manager';
+import {
+    SpaceshooterManager
+} from '../../manager/controller-manager/spaceshooter/spaceshooter-manager';
+import { GameSocket } from '../../manager/socket-manager';
+import { Spaceshooter } from './spaceshooter';
 
 export interface KeyInput {
     key: string,

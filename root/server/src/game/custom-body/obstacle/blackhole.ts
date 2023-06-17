@@ -1,8 +1,9 @@
-import { Obstacle, createObstacle, isObstacle } from "./obstacle";
-import { BlackholeManager } from "../../manager/body-manager/obstacle/blackhole-manager";
-import { CustomBody, createCustomBody } from "../custom-body";
-import { SpriteRender } from "../../../../../types/render_types";
-import { Bodies } from "matter-js";
+import { Bodies } from 'matter-js';
+
+import { SpriteRender } from '../../../../../types/render_types';
+import { BlackholeManager } from '../../manager/body-manager/obstacle/blackhole-manager';
+import { createCustomBody, CustomBody } from '../custom-body';
+import { createObstacle, isObstacle, Obstacle } from './obstacle';
 
 export interface Blackhole extends Obstacle {
     obstacleType: 'blackhole'

@@ -1,8 +1,8 @@
-import { Agent } from "../agent/agent";
-import { Bot } from "../controller/spaceshooter/bot";
-import { Player } from "../controller/spaceshooter/player";
-import { ControllerManager } from "../manager/controller-manager/controller-manager";
-import { GameSocket } from "../manager/socket-manager";
+import { Agent } from '../agent/agent';
+import { Bot } from '../controller/spaceshooter/bot';
+import { Player } from '../controller/spaceshooter/player';
+import { ControllerManager } from '../manager/controller-manager/controller-manager';
+import { GameSocket } from '../manager/socket-manager';
 
 export class ControllerFactory {
 

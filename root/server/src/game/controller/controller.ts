@@ -1,6 +1,9 @@
-import { ControllerManager, CustomControllerManager } from '../manager/controller-manager/controller-manager';
-import { Entity } from '../custom-body/entity/entity';
 import { UUID } from 'crypto';
+
+import { Entity } from '../custom-body/entity/entity';
+import {
+    ControllerManager, CustomControllerManager
+} from '../manager/controller-manager/controller-manager';
 
 export interface Controller {
     manager: ControllerManager

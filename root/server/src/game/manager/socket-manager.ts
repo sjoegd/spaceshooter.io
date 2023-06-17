@@ -1,7 +1,8 @@
 import { Socket } from 'socket.io';
-import { GameManager } from './game-manager';
-import { Player } from '../controller/spaceshooter/player';
+
 import { BodyRender, GameStateRender } from '../../../../types/render_types';
+import { Player } from '../controller/spaceshooter/player';
+import { GameManager } from './game-manager';
 
 export interface GameSocket extends Socket {
     player?: Player

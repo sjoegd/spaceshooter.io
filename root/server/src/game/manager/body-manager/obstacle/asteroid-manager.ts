@@ -1,8 +1,8 @@
-import { CustomBody } from "../../../custom-body/custom-body";
-import { Asteroid, isAsteroid } from "../../../custom-body/obstacle/asteroid";
-import { BodyManager, CustomBodyManager } from "../body-manager";
-import { ObstacleManager } from "./obstacle-manager";
+import { CustomBody } from '../../../custom-body/custom-body';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { BodyManager, CustomBodyManager } from '../body-manager';
+import { ObstacleManager } from './obstacle-manager';
 
 export class AsteroidManager extends ObstacleManager implements CustomBodyManager<Asteroid> {
 

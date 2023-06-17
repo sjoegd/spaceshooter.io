@@ -1,9 +1,9 @@
-import { Bullet } from "../../../custom-body/bullet/bullet";
-import { CustomBody } from "../../../custom-body/custom-body";
-import { BodyManager, CustomBodyManager } from "../body-manager";
-import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { Bullet } from '../../../custom-body/bullet/bullet';
+import { CustomBody } from '../../../custom-body/custom-body';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
-import { isSpacejet } from "../../../custom-body/entity/spacejet/spacejet";
+import { isSpacejet } from '../../../custom-body/entity/spacejet/spacejet';
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { BodyManager, CustomBodyManager } from '../body-manager';
 
 export class BulletManager implements CustomBodyManager<Bullet> {
     

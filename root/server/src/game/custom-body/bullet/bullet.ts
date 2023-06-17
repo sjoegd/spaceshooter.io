@@ -1,8 +1,9 @@
-import { BulletManager } from "../../manager/body-manager/bullet/bullet-manager";
-import { CustomBody, createCustomBody } from '../custom-body';
-import { Spacejet } from "../entity/spacejet/spacejet";
+import { Bodies, Body, Vector } from 'matter-js';
+
+import { BulletManager } from '../../manager/body-manager/bullet/bullet-manager';
+import { createCustomBody, CustomBody } from '../custom-body';
+import { Spacejet } from '../entity/spacejet/spacejet';
 import { BulletType, BulletTypeBase, createBulletType } from './type/bullet-type';
-import { Vector, Bodies, Body } from 'matter-js';
 
 export interface Bullet extends CustomBody {
     bodyType: 'bullet'

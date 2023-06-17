@@ -1,12 +1,13 @@
-import { Bodies, Body, Engine, World } from "matter-js";
-import { ServerGameEngine } from "../server-game-engine";
-import inBetween from "../../util/in-between";
-import { BodyManager } from "./body-manager/body-manager";
-import { CollisionManager } from './collision-manager';
-import { SocketManager } from './socket-manager';
-import { ControllerManager } from './controller-manager/controller-manager';
+import { Bodies, Body, Engine, World } from 'matter-js';
+
+import { BodyRender } from '../../../../types/render_types';
+import inBetween from '../../util/in-between';
+import { ServerGameEngine } from '../server-game-engine';
 import { AgentManager } from './agent-manager/agent-manager';
-import { BodyRender } from "../../../../types/render_types";
+import { BodyManager } from './body-manager/body-manager';
+import { CollisionManager } from './collision-manager';
+import { ControllerManager } from './controller-manager/controller-manager';
+import { SocketManager } from './socket-manager';
 
 export class GameManager {
 
@@ -22,7 +23,7 @@ export class GameManager {
     socketManager: SocketManager
     agentManager: AgentManager
 
-    constructor(gameEngine: ServerGameEngine, train: boolean) {
+    constructor(gameEngine: ServerGameEngine, train: boolean, newModel: boolean) {
         this.gameEngine = gameEngine;
         this.physicsEngine = gameEngine.physicsEngine;
 
@@ -32,7 +33,7 @@ export class GameManager {
         this.collisionManager = new CollisionManager(this)
         this.controllerManager = new ControllerManager(this)
         this.socketManager = new SocketManager(this)
-        this.agentManager = new AgentManager(this, 5, train)
+        this.agentManager = new AgentManager(this, 5, train, newModel)
     }
 
     manageGameBeforeUpdate() {

@@ -1,10 +1,10 @@
-import { CustomBody } from "../../../custom-body/custom-body";
-import { Entity, isEntity } from "../../../custom-body/entity/entity";
-import { Spacejet, isSpacejet } from "../../../custom-body/entity/spacejet/spacejet";
-import { BodyManager, CustomBodyManager } from "../body-manager";
-import { EntityManager } from "./entity-manager";
+import { CustomBody } from '../../../custom-body/custom-body';
+import { Entity, isEntity } from '../../../custom-body/entity/entity';
+import { isSpacejet, Spacejet } from '../../../custom-body/entity/spacejet/spacejet';
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
 import { BASE_TICK_RATE } from '../../../server-game-engine';
-import { Asteroid, isAsteroid } from "../../../custom-body/obstacle/asteroid";
+import { BodyManager, CustomBodyManager } from '../body-manager';
+import { EntityManager } from './entity-manager';
 
 export class SpacejetManager extends EntityManager implements CustomBodyManager<Spacejet> {
 

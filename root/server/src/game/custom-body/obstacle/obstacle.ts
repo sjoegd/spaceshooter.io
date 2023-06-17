@@ -1,6 +1,7 @@
-import { Body, Vector } from "matter-js";
-import { ObstacleManager } from "../../manager/body-manager/obstacle/obstacle-manager";
-import { CustomBody } from "../custom-body";
+import { Body, Vector } from 'matter-js';
+
+import { ObstacleManager } from '../../manager/body-manager/obstacle/obstacle-manager';
+import { CustomBody } from '../custom-body';
 
 export interface Obstacle extends CustomBody {
     bodyType: 'obstacle'

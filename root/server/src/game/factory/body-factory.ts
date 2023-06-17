@@ -1,9 +1,9 @@
-import { BodyManager } from '../manager/body-manager/body-manager';
-import { createBullet, BulletOptions } from '../custom-body/bullet/bullet';
-import { SpacejetOptions, createSpacejet } from '../custom-body/entity/spacejet/spacejet';
-import { createAsteroid, AsteroidOptions } from '../custom-body/obstacle/asteroid';
-import { createBlackhole, BlackholeOptions } from '../custom-body/obstacle/blackhole';
+import { BulletOptions, createBullet } from '../custom-body/bullet/bullet';
+import { createSpacejet, SpacejetOptions } from '../custom-body/entity/spacejet/spacejet';
+import { AsteroidOptions, createAsteroid } from '../custom-body/obstacle/asteroid';
+import { BlackholeOptions, createBlackhole } from '../custom-body/obstacle/blackhole';
 import { createPowerup, PowerupOptions } from '../custom-body/powerup/powerup';
+import { BodyManager } from '../manager/body-manager/body-manager';
 
 export class BodyFactory {
 

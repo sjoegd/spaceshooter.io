@@ -1,5 +1,6 @@
-import { Body } from "matter-js";
-import { CustomBodyManager } from "../manager/body-manager/body-manager";
+import { Body } from 'matter-js';
+
+import { CustomBodyManager } from '../manager/body-manager/body-manager';
 
 export interface CustomBody extends Body {
     bodyType: string

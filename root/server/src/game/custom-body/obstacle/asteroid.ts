@@ -1,8 +1,9 @@
-import { AsteroidManager } from '../../manager/body-manager/obstacle/asteroid-manager';
-import { Obstacle, isObstacle, createObstacle } from './obstacle';
-import { CustomBody, createCustomBody } from '../custom-body';
-import { Vector, Bodies } from 'matter-js';
+import { Bodies, Vector } from 'matter-js';
+
 import { SpriteRender } from '../../../../../types/render_types';
+import { AsteroidManager } from '../../manager/body-manager/obstacle/asteroid-manager';
+import { createCustomBody, CustomBody } from '../custom-body';
+import { createObstacle, isObstacle, Obstacle } from './obstacle';
 
 export interface Asteroid extends Obstacle {
     obstacleType: 'asteroid'

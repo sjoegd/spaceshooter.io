@@ -1,10 +1,10 @@
-import { CustomBody, isCustomBody } from "../custom-body/custom-body";
-import { BodyManager } from "../manager/body-manager/body-manager";
+import inBetween from '../../util/in-between';
+import { CustomBody, isCustomBody } from '../custom-body/custom-body';
 import { isAsteroid } from '../custom-body/obstacle/asteroid';
-import { BASE_TICK_RATE } from "../server-game-engine";
-import inBetween from "../../util/in-between";
-import { isBlackhole } from "../custom-body/obstacle/blackhole";
-import { isPowerup } from "../custom-body/powerup/powerup";
+import { isBlackhole } from '../custom-body/obstacle/blackhole';
+import { isPowerup } from '../custom-body/powerup/powerup';
+import { BodyManager } from '../manager/body-manager/body-manager';
+import { BASE_TICK_RATE } from '../server-game-engine';
 
 interface BodySpawnInstance<BodyType extends CustomBody> {
     create: (x: number, y: number) => void

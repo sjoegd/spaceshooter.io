@@ -1,6 +1,7 @@
-import { Vector } from "matter-js"
-import { SpriteRender } from "../../../../../../types/render_types"
-import { StandardBulletType } from "./standard-bullet-type"
+import { Vector } from 'matter-js';
+
+import { SpriteRender } from '../../../../../../types/render_types';
+import { StandardBulletType } from './standard-bullet-type';
 
 export type BulletTypeBase = 'standard'
 

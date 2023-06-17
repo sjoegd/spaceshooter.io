@@ -1,8 +1,11 @@
-import { Controller } from '../controller';
-import { SpaceshooterManager } from '../../manager/controller-manager/spaceshooter/spaceshooter-manager';
-import { Spacejet, isSpacejet } from '../../custom-body/entity/spacejet/spacejet';
+import { randomUUID, UUID } from 'crypto';
+
+import { isSpacejet, Spacejet } from '../../custom-body/entity/spacejet/spacejet';
 import { ControllerManager } from '../../manager/controller-manager/controller-manager';
-import { UUID, randomUUID } from 'crypto';
+import {
+    SpaceshooterManager
+} from '../../manager/controller-manager/spaceshooter/spaceshooter-manager';
+import { Controller } from '../controller';
 
 export abstract class Spaceshooter implements Controller {
 

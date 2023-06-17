@@ -1,6 +1,5 @@
-import { AlienSpacejetProperties } from "./alien-spacejet-properties";
+import { AlienSpacejetProperties } from './alien-spacejet-properties';
 
- 
 export class SpecialAlienSpacejetProperties extends AlienSpacejetProperties {
 
     constructor() {

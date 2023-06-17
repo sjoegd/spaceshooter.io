@@ -1,6 +1,6 @@
-import { EntityManager } from "../../manager/body-manager/entity/entity-manager";
-import { CustomBody } from "../custom-body";
 import { Controller } from '../../controller/controller';
+import { EntityManager } from '../../manager/body-manager/entity/entity-manager';
+import { CustomBody } from '../custom-body';
 
 export interface Entity extends CustomBody {
     bodyType: 'entity'

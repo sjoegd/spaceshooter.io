@@ -1,15 +1,16 @@
+import { Body, Vector, World } from 'matter-js';
+
 import { CustomBody } from '../../custom-body/custom-body';
+import { BodyFactory } from '../../factory/body-factory';
+import { BodySpawner } from '../../spawner/body-spawner';
 import { GameManager } from '../game-manager';
 import { BulletManager } from './bullet/bullet-manager';
 import { EntityManagers } from './entity/entity-manager';
-import { PowerupManager } from './powerup/powerup-manager';
-import { ObstacleManagers } from './obstacle/obstacle-manager';
+import { SpacejetManager } from './entity/spacejet-manager';
 import { AsteroidManager } from './obstacle/asteroid-manager';
 import { BlackholeManager } from './obstacle/blackhole-manager';
-import { SpacejetManager } from './entity/spacejet-manager';
-import { BodyFactory } from '../../factory/body-factory';
-import { Body, Vector, World } from 'matter-js';
-import { BodySpawner } from '../../spawner/body-spawner';
+import { ObstacleManagers } from './obstacle/obstacle-manager';
+import { PowerupManager } from './powerup/powerup-manager';
 
 export class BodyManager {
 

@@ -1,7 +1,7 @@
-import { SpriteRender } from "../../../../../../../types/render_types";
-import { SpacejetProperties } from "./spacejet-properties";
+import { SpriteRender } from '../../../../../../../types/render_types';
 import { BASE_TICK_RATE } from '../../../../server-game-engine';
-import { BulletTypeBase } from "../../../bullet/type/bullet-type";
+import { BulletTypeBase } from '../../../bullet/type/bullet-type';
+import { SpacejetProperties } from './spacejet-properties';
 
 export class StandardSpacejetProperties implements SpacejetProperties {
     scale: number = 1/5;

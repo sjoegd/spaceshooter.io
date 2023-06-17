@@ -1,8 +1,8 @@
 // import { DQNAgent, IDQNAgentJSON } from "@brain/rl";
 // @ts-ignore
-import { DQNAgent, IDQNAgentJSON } from "../../../node_modules/@brain/rl/dist/rl.js"
-import { Bot } from "../controller/spaceshooter/bot";
-import { AgentManager } from "../manager/agent-manager/agent-manager.js";
+import { DQNAgent, IDQNAgentJSON } from '../../../node_modules/@brain/rl/dist/rl.js';
+import { Bot } from '../controller/spaceshooter/bot';
+import { AgentManager } from '../manager/agent-manager/agent-manager.js';
 
 export class Agent {
 

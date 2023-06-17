@@ -1,11 +1,12 @@
-import { CustomBody } from "../../../custom-body/custom-body";
-import { Blackhole, isBlackhole } from "../../../custom-body/obstacle/blackhole";
-import { BodyManager, CustomBodyManager } from "../body-manager";
-import { ObstacleManager } from "./obstacle-manager";
-import { Vector, Body } from 'matter-js';
-import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { Body, Vector } from 'matter-js';
+
+import { isBullet } from '../../../custom-body/bullet/bullet';
+import { CustomBody } from '../../../custom-body/custom-body';
 import { Entity, isEntity } from '../../../custom-body/entity/entity';
-import { isBullet } from "../../../custom-body/bullet/bullet";
+import { Asteroid, isAsteroid } from '../../../custom-body/obstacle/asteroid';
+import { Blackhole, isBlackhole } from '../../../custom-body/obstacle/blackhole';
+import { BodyManager, CustomBodyManager } from '../body-manager';
+import { ObstacleManager } from './obstacle-manager';
 
 export class BlackholeManager extends ObstacleManager implements CustomBodyManager<Blackhole> {
 

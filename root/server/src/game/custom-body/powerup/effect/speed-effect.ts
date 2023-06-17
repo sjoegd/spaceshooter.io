@@ -1,8 +1,9 @@
 import { Vector } from 'matter-js';
+
 import { SpriteRender } from '../../../../../../types/render_types';
+import { BASE_TICK_RATE } from '../../../server-game-engine';
 import { Entity } from '../../entity/entity';
 import { PowerupEffect } from './powerup-effect';
-import { BASE_TICK_RATE } from '../../../server-game-engine';
 
 export class SpeedEffect implements PowerupEffect {
     speedMultiplier: number = 1.25;
