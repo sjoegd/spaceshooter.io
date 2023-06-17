@@ -77,7 +77,7 @@ export class BodySpawner {
     }
 
     manageSpawn(spawn: BodySpawnInstance<CustomBody>) {
-        if(spawn.amount == spawn.spawnAmount) return;
+        if(spawn.amount >= spawn.spawnAmount) return;
         if(this.baseSpawnRate < Math.random()) return;
         if(spawn.spawnRate < Math.random()) return;
 
