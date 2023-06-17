@@ -8,10 +8,10 @@ import { ServerGameEngine } from './game/server-game-engine';
 
 // Parse arguments
 const argv = minimist(process.argv.slice(2), {
-  string: ["train", "new_model"],
+  string: ["train", "newModel"],
 }); 
 const train = argv.train !== undefined;
-const newModel = argv.new_model !== undefined;
+const newModel = argv.newModel !== undefined;
 
 // Setup express
 const app  = express();
@@ -73,7 +73,7 @@ const io = new Server(server, {
 })
 
 // Setup a game lobby
-const lobby = new ServerGameEngine(train ? 1000 : 60, train)
+const lobby = new ServerGameEngine(train ? 1000 : 60, train, newModel)
 
 // Setup socket connections to lobby
 io.on('connection', (socket) => {
