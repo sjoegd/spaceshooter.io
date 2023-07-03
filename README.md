@@ -43,7 +43,7 @@ The goal of this project was to create a game similar to popular .io games, but 
 
 I managed to get this working, but the reinforcement learning libraries i used just didn't provide what i wanted and actually training on a server running for multiplayer turned out to be not so great of an idea, since it had to be hosted on the cloud which resulted in terrible performance for the training.
 
-Because of this i stopped working on the project, but i wouldn't say it is a failure, since it still provides a working multiplier game.
+Because of this i stopped working on the project, but i wouldn't say it is a failure, since it still provides a working multiplayer game.
 
 ### Author
 Everything was made by Sjoegd
