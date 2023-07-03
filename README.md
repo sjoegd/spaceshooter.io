@@ -1,7 +1,7 @@
 # Spaceshooter.io
 
 A canvas based multiplayer game made with typescript.  
-Currently available on: <https://spaceshooter.sjoegd.me/>
+Currently not being hosted.
 
 ## What it is
 
